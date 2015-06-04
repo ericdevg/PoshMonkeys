@@ -1,3 +1,0 @@
-#
-# ACloudProvider.ps1
-#

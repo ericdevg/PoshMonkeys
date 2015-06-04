@@ -28,13 +28,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Config\" />
+    <Folder Include="ChaosMonkey\" />
     <Folder Include="Resources\" />
     <Folder Include="Scripts\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AzureCloudProvider.ps1" />
+    <Compile Include="ClientConfig.ps1" />
+    <Compile Include="AzureClient.ps1" />
     <Compile Include="ChaosMonkey.ps1" />
     <Compile Include="Configuration.ps1" />
+    <Compile Include="Config\PoshMonkeys.Client.Azure.xml" />
     <Compile Include="EmailNotifier.ps1" />
     <Compile Include="InstanceSelector.ps1" />
     <Compile Include="MonkeyRunner.ps1" />
