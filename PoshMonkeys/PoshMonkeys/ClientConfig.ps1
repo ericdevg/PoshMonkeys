@@ -9,6 +9,7 @@ class ClientConfig
 	ClientConfig([string] $ConfigFilePath)
 	{
 		# Import azure client from config file
+		Write-Host "$PSScriptRoot\Config\$ConfigFilePath";
 		$this.XmlConfig = Get-Content "$PSScriptRoot\Config\$ConfigFilePath";
 	}
 }

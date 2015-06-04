@@ -29,18 +29,23 @@
   <ItemGroup>
     <Folder Include="Config\" />
     <Folder Include="ChaosMonkey\" />
+    <Folder Include="Chaos\" />
     <Folder Include="Resources\" />
     <Folder Include="Scripts\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClientConfig.ps1" />
     <Compile Include="AzureClient.ps1" />
-    <Compile Include="ChaosMonkey.ps1" />
+    <Compile Include="Chaos\ChaosMonkey.ps1" />
     <Compile Include="Configuration.ps1" />
-    <Compile Include="Config\PoshMonkeys.Client.Azure.xml" />
+    <Compile Include="Config\PoshMonkeys.Client.Azure.Properties.xml" />
+    <Compile Include="Config\PoshMonkeys.Properties.xml" />
     <Compile Include="EmailNotifier.ps1" />
     <Compile Include="InstanceSelector.ps1" />
+    <Compile Include="Logger.ps1" />
+    <Compile Include="MonkeyCalendar.ps1" />
     <Compile Include="MonkeyRunner.ps1" />
+    <Compile Include="MonkeyScheduler.ps1" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />

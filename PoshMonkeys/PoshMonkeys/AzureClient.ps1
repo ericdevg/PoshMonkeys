@@ -1,13 +1,12 @@
 #
-# AzureClient.psm1
+# AzureClient.ps1
 #
-
-#Import-Module Azure
 
 Import-Module "$PSScriptRoot\ClientConfig.ps1"
 
 class AzureClient {
 	[string] $PublishSettingsFile;
+	[ClientConfig] $AzureClientConfig;
 
 	[void] ImportPublishSettings([string] $FilePath)
 	{
@@ -17,11 +16,11 @@ class AzureClient {
 	AzureClient()
 	{
 		Write-Host "azureclient"
-		$AzureConfig = [ClientConfig]::new("PoshMonkeys.Client.Azure.xml");
+		$this.AzureClientConfig = [ClientConfig]::new("PoshMonkeys.Client.Azure.Properties.xml");
 
-		$this.PublishSettingsFile = $AzureConfig.XmlConfig.Configurations.PublishSetting;
+		$this.PublishSettingsFile = $this.AzureClientConfig.XmlConfig.Configurations.PublishSetting;
 
-		ImportPublishSettings($this.PublishSettingsFile);
+		$this.ImportPublishSettings($this.PublishSettingsFile);
 	}
 }
 
