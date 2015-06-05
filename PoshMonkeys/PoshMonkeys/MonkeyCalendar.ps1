@@ -2,8 +2,6 @@
 # MonkeyCalendar.ps1
 #
 
-Import-Module "$PSScriptRoot\ClientConfig.ps1"
-
 class MonkeyCalendar
 {
 	[System.TimeZone] $TimeZone;

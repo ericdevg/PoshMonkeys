@@ -2,15 +2,16 @@
 # AzureClient.ps1
 #
 
-Import-Module "$PSScriptRoot\ClientConfig.ps1"
-
 class AzureClient {
 	[string] $PublishSettingsFile;
 	[ClientConfig] $AzureClientConfig;
 
 	[void] ImportPublishSettings([string] $FilePath)
 	{
-		Import-AzurePublishSettingsFile -PublishSettingsFile $this.PublishSettingsFile;
+		
+		Write-Host "Importing publishsettings from $($this.PublishSettingsFile)";
+		Write-Host "'$($this.PublishSettingsFile)'";
+		Import-AzurePublishSettingsFile -PublishSettingsFile "'$($this.PublishSettingsFile)'";
 	}
 
 	AzureClient()

@@ -14,8 +14,7 @@ if ($calendar.IsMonkeyBusinessTime())
 {
 	$azureClient = [AzureClient]::new();
 	$monkey = [ChaosMonkey]::new($azureClient);
-	$monkey.doBusiness();
+	$monkey.DoBusiness();
 }
-		
-		
 
+Get-module | Remove-Module

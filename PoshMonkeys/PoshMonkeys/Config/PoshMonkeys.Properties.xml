@@ -1,12 +1,6 @@
 <?xml version="1.0"?>
 <Configurations>
-  <TimeZone>
-    -8
-  </TimeZone>
-  <OpenHour>
-    9
-  </OpenHour>
-  <CloseHour>
-    18
-  </CloseHour>
+  <TimeZone>-8</TimeZone>
+  <OpenHour>9</OpenHour>
+  <CloseHour>18</CloseHour>
 </Configurations>

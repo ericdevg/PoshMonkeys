@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<Configurations>
+  <Enabled>1</Enabled>
+  <Leashed>1</Leashed>
+  <DefaultProbability>0.5</DefaultProbability>
+  <Notification>
+    <Enabled>1</Enabled>
+    <ReceiverEmail>zhiyd@microsoft.com</ReceiverEmail>
+    <SenderEmail>zhiyd@microsoft.com</SenderEmail>
+  </Notification>
+</Configurations>

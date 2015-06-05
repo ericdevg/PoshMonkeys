@@ -28,7 +28,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Config\" />
-    <Folder Include="ChaosMonkey\" />
     <Folder Include="Chaos\" />
     <Folder Include="Resources\" />
     <Folder Include="Scripts\" />
@@ -38,6 +37,7 @@
     <Compile Include="AzureClient.ps1" />
     <Compile Include="Chaos\ChaosMonkey.ps1" />
     <Compile Include="Configuration.ps1" />
+    <Compile Include="Config\PoshMonkeys.Chaos.Properties.xml" />
     <Compile Include="Config\PoshMonkeys.Client.Azure.Properties.xml" />
     <Compile Include="Config\PoshMonkeys.Properties.xml" />
     <Compile Include="EmailNotifier.ps1" />
