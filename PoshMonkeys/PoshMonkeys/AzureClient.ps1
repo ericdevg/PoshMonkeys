@@ -26,16 +26,23 @@ class AzureClient {
 
 	[array] GetAllAvailabilitySets() 
 	{
-		$AailabilitySets = New-Object 'System.Collections.Generic.List[string]'
+		$AvailabilitySets = @();
 
         $UniqueList = Get-AzureVM | Select -Property AvailabilitySetName | Get-Unique
 
-		foreach($AS in $UniqueList)
+		foreach ($AS in $UniqueList)
 		{
-			$this.AailabilitySets.Add($AS.AvailabilitySetName);
+			if($AS -eq $null)
+			{
+				Write-Host xx;
+				}
+
+			Write-Host $AS.AvailabilitySetName;
+			$AvailabilitySets += $AS.AvailabilitySetName;
+			Write-Host $AS.AvailabilitySetName;
 		}
 
-		return $AailabilitySets;
+		return $AvailabilitySets;
     }
 
 	[array] GetAllInstances([string] $AvailabilitySetName) 

@@ -8,15 +8,15 @@ class InstanceGroup
 
     [string] $Region;
 
-	[System.Collections.Generic.List[string]] $Instances;
+	[array] $Instances;
 
     InstanceGroup([string] $name) 
 	{
-        $this.Name = name;
-		$this.Instances = New-Object 'System.Collections.Generic.List[string]';
+        $this.Name = $name;
+		$this.Instances = @();
     }
 
-    [void] AddInstance([string] $instance) {
-        $this.Instances.add($instance);
+    [void] AddInstance([string] $instanceName) {
+        $this.Instances.add($instanceName);
     }
 }

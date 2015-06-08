@@ -7,24 +7,24 @@ Import-Module "$PSScriptRoot\InstanceGroup.ps1"
 class InstanceCrawler
 {
     [AzureClient] $AzureClient;
-	[System.Collections.Generic.List[InstanceGroup]] $AllInstanceGroups;
+	[array] $AllInstanceGroups;
 
-    InstanceCrawler([AzureClient] $Client)
+    InstanceCrawler([AzureClient] $azureClient)
 	{
-		$this.AzureClient = $Client;
-		$AllAvailabilitySets = $Client.GetAllAvailabilitySets();
+		$this.AzureClient = $azureClient;
+		$allAvailabilitySets = $azureClient.GetAllAvailabilitySets();
 		
-		foreach($AS in $AllAvailabilitySets)
+		foreach($ASName in $allAvailabilitySets)
 		{
-			$InstanceGroup = [InstanceGroup]::new($AS.AvailabilitySetName);
+			$InstanceGroup = [InstanceGroup]::new($ASName);
 			
-			$Instances = $Client.GetAllInstances($AS.AvailabilitySetName);
+			$Instances = $azureClient.GetAllInstances($ASName);
 			foreach($Instance in $Instances)
 			{
 				$InstanceGroup.AddInstance($Instance);
 			}
 
-			$this.AllInstanceGroups.Add($InstanceGroup);
+			$this.AllInstanceGroups += $InstanceGroup;
 		}
     }
 }

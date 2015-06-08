@@ -41,6 +41,8 @@
     <Compile Include="Config\PoshMonkeys.Client.Azure.Properties.xml" />
     <Compile Include="Config\PoshMonkeys.Properties.xml" />
     <Compile Include="EmailNotifier.ps1" />
+    <Compile Include="InstanceCrawler.ps1" />
+    <Compile Include="InstanceGroup.ps1" />
     <Compile Include="InstanceSelector.ps1" />
     <Compile Include="Logger.ps1" />
     <Compile Include="MonkeyCalendar.ps1" />
