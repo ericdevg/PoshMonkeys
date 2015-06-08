@@ -25,3 +25,12 @@
 # @param probability
 #            the probability per run that an instance should be terminated.
 # @return the instance
+
+class InstanceSelector
+{
+	InstanceSelector()
+	{}
+
+	Select()
+	{}
+}
