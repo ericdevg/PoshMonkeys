@@ -32,14 +32,7 @@ class AzureClient {
 
 		foreach ($AS in $UniqueList)
 		{
-			if($AS -eq $null)
-			{
-				Write-Host xx;
-				}
-
-			Write-Host $AS.AvailabilitySetName;
 			$AvailabilitySets += $AS.AvailabilitySetName;
-			Write-Host $AS.AvailabilitySetName;
 		}
 
 		return $AvailabilitySets;

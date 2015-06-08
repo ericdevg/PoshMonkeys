@@ -17,6 +17,6 @@ class InstanceGroup
     }
 
     [void] AddInstance([string] $instanceName) {
-        $this.Instances.add($instanceName);
+        $this.Instances += $instanceName;
     }
 }
