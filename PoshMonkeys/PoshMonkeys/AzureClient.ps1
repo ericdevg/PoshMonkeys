@@ -23,5 +23,24 @@ class AzureClient {
 
 		$this.ImportPublishSettings($this.PublishSettingsFile);
 	}
+
+	[array] GetAllAvailabilitySets() 
+	{
+		$AvailabilitySets = @();
+
+        $UniqueList = Get-AzureVM | Select -Property AvailabilitySetName | Get-Unique
+
+		foreach ($AS in $UniqueList)
+		{
+			$AvailabilitySets += $AS.AvailabilitySetName;
+		}
+
+		return $AvailabilitySets;
+    }
+
+	[array] GetAllInstances([string] $AvailabilitySetName) 
+	{
+		return Get-AzureVM | Where-Object {$_.AvailabilitySetName -eq "$AvailabilitySetName"};
+    }
 }
 
