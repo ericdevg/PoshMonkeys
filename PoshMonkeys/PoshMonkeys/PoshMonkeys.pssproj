@@ -33,6 +33,8 @@
     <Folder Include="Scripts\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Chaos\ChaosInstanceGroupConfig.ps1" />
+    <Compile Include="Chaos\ChaosMonkeyConfig.ps1" />
     <Compile Include="ClientConfig.ps1" />
     <Compile Include="AzureClient.ps1" />
     <Compile Include="Chaos\ChaosMonkey.ps1" />
