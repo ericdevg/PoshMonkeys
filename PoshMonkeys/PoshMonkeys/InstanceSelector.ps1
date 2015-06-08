@@ -28,9 +28,44 @@
 
 class InstanceSelector
 {
-	InstanceSelector()
-	{}
+	[MonkeyCalendar] $Calendar;
+	[ChaosMonkeyConfig] $ChaosConfig;
+	[InstanceCrawler] $Crawler;
 
-	Select()
-	{}
+	InstanceSelector([MonkeyCalendar] $calendar, [ChaosMonkeyConfig] $chaosConfig, [InstanceCrawler] $crawler)
+	{
+		$this.Calendar = $calendar;
+		$this.ChaosConfig = $chaosConfig;
+		$this.Crawler = $crawler;
+	}
+	
+	[array] Select([string] $instanceGroupName)
+	{
+		$selectedInstances = @();
+
+		[InstanceGroup] $group = $this.Crawler.AllInstanceGroups | Where-Object {$_.Name -eq "$instanceGroupName"};
+
+		if($group -ne $null)
+		{
+			[int] $openHours = $this.Calendar.CloseHour - $this.Calendar.OpenHour;
+			[ChaosInstanceGroupConfig] $groupConfig = $this.ChaosConfig.InstanceGroupChaosConfig | Where-Object {$_.Name -eq "$instanceGroupName"};
+			[int] $dailyProbability = $groupConfig.DailyProbability;
+			[double] $hourlyProbability = $dailyProbability / $openHours;
+
+			if($hourlyProbability -gt 1)
+			{
+				$hourlyProbability = 1;
+			}
+		
+			[int] $rand1 = Get-Random -Minimum 0 -Maximum 100;
+		
+			if($rand1 / 100 -lt $hourlyProbability)
+			{
+				[int] $rand2 = Get-Random -Minimum 1 -Maximum $groupConfig.MaxAffectedInstance;
+				$selectedInstances = $group.Instances | Get-Random -Count $rand2;
+			}
+		}
+
+		return $selectedInstances;
+	}
 }
