@@ -2,7 +2,14 @@
 <Configurations>
   <Enabled>1</Enabled>
   <Leashed>1</Leashed>
-  <DefaultProbability>0.5</DefaultProbability>
+  <DefaultDailyProbability>1</DefaultDailyProbability>
+  <AvailabilitySets>
+    <AvailabilitySet>
+      <Name>AS007</Name>
+      <Enabled>1</Enabled>
+      <DailyProbability>1</DailyProbability>
+    </AvailabilitySet>
+  </AvailabilitySets>
   <Notification>
     <Enabled>1</Enabled>
     <ReceiverEmail>zhiyd@microsoft.com</ReceiverEmail>

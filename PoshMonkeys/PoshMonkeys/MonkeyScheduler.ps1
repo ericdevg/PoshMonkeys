@@ -4,7 +4,7 @@
 
 class MonkeyScheduler
 {
-	[int]$frequency;
+	[int] $frequency;
 
 	[void] Start()
 	{
