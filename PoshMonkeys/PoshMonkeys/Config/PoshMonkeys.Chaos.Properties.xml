@@ -2,12 +2,14 @@
 <Configurations>
   <Enabled>1</Enabled>
   <Leashed>1</Leashed>
-  <DefaultDailyProbability>1</DefaultDailyProbability>
+  <DailyProbability>1</DailyProbability>
+  <MaxAffectedInstance>1</MaxAffectedInstance>
   <AvailabilitySets>
     <AvailabilitySet>
       <Name>AS007</Name>
       <Enabled>1</Enabled>
       <DailyProbability>1</DailyProbability>
+      <MaxAffectedInstance>2</MaxAffectedInstance>
     </AvailabilitySet>
   </AvailabilitySets>
   <Notification>
