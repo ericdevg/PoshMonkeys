@@ -29,6 +29,7 @@
   <ItemGroup>
     <Folder Include="Config\" />
     <Folder Include="Chaos\" />
+    <Folder Include="NewFolder1\" />
     <Folder Include="Resources\" />
     <Folder Include="Scripts\" />
   </ItemGroup>
@@ -50,6 +51,10 @@
     <Compile Include="MonkeyCalendar.ps1" />
     <Compile Include="MonkeyRunner.ps1" />
     <Compile Include="MonkeyScheduler.ps1" />
+    <Compile Include="PoshMonkeys.ps1" />
+    <Compile Include="RunPoshMonkeys.ps1" />
+    <Compile Include="Start-PoshMonkeys.ps1" />
+    <Compile Include="Stop-PoshMonkeys.ps1" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />

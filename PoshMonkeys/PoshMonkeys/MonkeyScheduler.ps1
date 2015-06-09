@@ -2,17 +2,28 @@
 # MonkeyScheduler.ps1
 #
 
+Import-Module "$PSScriptRoot\MonkeyCalendar.ps1"
+
 class MonkeyScheduler
 {
-	[int] $frequency;
+	[MonkeyCalendar] $Calendar;
 
-	[void] Start()
+	MonkeyScheduler([MonkeyCalendar] $calendar)
 	{
-
+		$this.Calendar = $calendar;
 	}
 
-	[void] Stop()
+	[void] StartMonkeyJob([object] $monkey)
 	{
+		if ($this.Calendar.IsMonkeyBusinessTime())
+		{
+			Start-Job -Name $monkey.Type -FilePath "$PSScriptRoot\MonkeyRunner.ps1" -ArgumentList $monkey
+			#. C:\tip\PoshMonkeys\PoshMonkeys\PoshMonkeys\MonkeyRunner.ps1 $monkey
+		}
+	}
 
+	[void] StopMonkeyJob()
+	{
+		Get-Job | Remove-Job;
 	}
 }
