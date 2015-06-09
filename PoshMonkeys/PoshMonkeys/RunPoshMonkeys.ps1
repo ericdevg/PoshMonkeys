@@ -6,12 +6,13 @@ Import-Module "$PSScriptRoot\Logger.ps1"
 Import-Module "$PSScriptRoot\ClientConfig.ps1"
 Import-Module "$PSScriptRoot\AzureClient.ps1"
 Import-Module "$PSScriptRoot\MonkeyCalendar.ps1"
-Import-Module "$PSScriptRoot\Chaos\ChaosMonkey.ps1"
 Import-Module "$PSScriptRoot\InstanceGroup.ps1"
 Import-Module "$PSScriptRoot\InstanceCrawler.ps1"
+Import-Module "$PSScriptRoot\InstanceSelector.ps1"
+Import-Module "$PSScriptRoot\MonkeyScheduler.ps1"
 Import-Module "$PSScriptRoot\Chaos\ChaosInstanceGroupConfig.ps1"
 Import-Module "$PSScriptRoot\Chaos\ChaosMonkeyConfig.ps1"
-Import-Module "$PSScriptRoot\InstanceSelector.ps1"
+Import-Module "$PSScriptRoot\Chaos\ChaosMonkey.ps1"
 
 # global config loading
 $azureClient = [AzureClient]::new();
@@ -21,18 +22,14 @@ $calendar = [MonkeyCalendar]::new($monkeyConfig);
 # monkeys config loading
 $chaosMonkeyConfig = [ChaosMonkeyConfig]::new();
 
-# create all monkey instance
-$monkey = [ChaosMonkey]::new($azureClient);
-
 # locate all target availability sets
 $crawler = [InstanceCrawler]::new($azureClient);
 
-$selector = [InstanceSelector]::new($calendar, $chaosMonkeyConfig, $crawler);
-$instances = $selector.Select("AS007");
+# create all monkey instance
+$monkey = [ChaosMonkey]::new($azureClient, $calendar, $chaosMonkeyConfig, $crawler);
 
-if ($calendar.IsMonkeyBusinessTime())
-{
-	$monkey.DoBusiness();
-}
+$scheduler = [MonkeyScheduler]::new($calendar);
 
-Get-module | Remove-Module
+$scheduler.StartMonkeyJob($monkey);
+
+Get-Module | Remove-Module

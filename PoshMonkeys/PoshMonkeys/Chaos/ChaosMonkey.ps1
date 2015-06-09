@@ -2,6 +2,10 @@
 # ChaosMonkey.ps1
 #
 
+Import-Module "$PSScriptRoot\ChaosMonkeyConfig.ps1"
+Import-Module "$PSScriptRoot\..\InstanceCrawler.ps1"
+Import-Module "$PSScriptRoot\..\InstanceSelector.ps1"
+
 class ChaosMonkey
 {
 	[AzureClient] $AzureClient;
