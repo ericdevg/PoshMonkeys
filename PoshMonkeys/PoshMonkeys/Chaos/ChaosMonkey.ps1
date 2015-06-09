@@ -23,7 +23,7 @@ class ChaosMonkey
 		$this.Crawler = $crawler;
 	}
 
-	DoBusiness()
+	[void] DoBusiness()
 	{
 		Write-Host "Entering Chaos Monkey";
 		$selector = [InstanceSelector]::new($this.Calendar, $this.Config, $this.Crawler);

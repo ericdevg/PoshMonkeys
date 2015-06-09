@@ -17,8 +17,8 @@ class MonkeyScheduler
 	{
 		if ($this.Calendar.IsMonkeyBusinessTime())
 		{
-			#Start-Job -Name $monkey.Type -FilePath "$PSScriptRoot\MonkeyRunner.ps1" -ArgumentList $monkey
-			. C:\tip\PoshMonkeys\PoshMonkeys\PoshMonkeys\MonkeyRunner.ps1 $monkey
+			Start-Job -Name $monkey.Type -FilePath "$PSScriptRoot\MonkeyRunner.ps1" -ArgumentList $monkey
+			#. C:\tip\PoshMonkeys\PoshMonkeys\PoshMonkeys\MonkeyRunner.ps1 $monkey
 		}
 	}
 
