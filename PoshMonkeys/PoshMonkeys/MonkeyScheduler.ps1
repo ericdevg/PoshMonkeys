@@ -4,15 +4,25 @@
 
 class MonkeyScheduler
 {
-	[int] $frequency;
+	[MonkeyCalenar] $Calendar;
 
-	[void] Start()
+	MonkeyScheduler([MonkeyCalendar] $calendar)
 	{
-
+		$this.Calendar = $calendar;
 	}
 
-	[void] Stop()
-	{
+	[int] $frequency;
 
+	[void] StartMonkeyJob([object] $monkey)
+	{
+		if ($this.Calendar.IsMonkeyBusinessType)
+		{
+			Start-Job -Name $monkey.Type -FilePath "$PSScriptRoot\MonkeyRunner.ps1" -ArgumentList $monkey
+		}
+	}
+
+	[void] StopMonkeyJob()
+	{
+		Get-Job | Remove-Job;
 	}
 }

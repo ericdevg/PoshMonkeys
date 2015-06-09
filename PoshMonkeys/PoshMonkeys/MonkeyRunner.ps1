@@ -12,20 +12,8 @@ Import-Module "$PSScriptRoot\Chaos\ChaosInstanceGroupConfig.ps1"
 Import-Module "$PSScriptRoot\Chaos\ChaosMonkeyConfig.ps1"
 Import-Module "$PSScriptRoot\InstanceSelector.ps1"
 
-$monkeyConfig = [ClientConfig]::new("PoshMonkeys.Properties.xml");
-$chaosMonkeyConfig = [ChaosMonkeyConfig]::new();
-$calendar = [MonkeyCalendar]::new($monkeyConfig);
-$azureClient = [AzureClient]::new();
-$monkey = [ChaosMonkey]::new($azureClient);
+Param(
+	[object][Parameter(Mandatory=$true)] $Monkey
+)
 
-$crawler = [InstanceCrawler]::new($azureClient);
-
-$scheduler = [InstanceSelector]::new($calendar, $chaosMonkeyConfig, $crawler);
-$instances = $scheduler.Select("AS007");
-
-if ($calendar.IsMonkeyBusinessTime())
-{
-	$monkey.DoBusiness();
-}
-
-Get-module | Remove-Module
+$monkey.DoBusiness();
