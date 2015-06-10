@@ -29,7 +29,6 @@
   <ItemGroup>
     <Folder Include="Config\" />
     <Folder Include="Chaos\" />
-    <Folder Include="NewFolder1\" />
     <Folder Include="Resources\" />
     <Folder Include="Scripts\" />
   </ItemGroup>
@@ -44,6 +43,7 @@
     <Compile Include="Config\PoshMonkeys.Client.Azure.Properties.xml" />
     <Compile Include="Config\PoshMonkeys.Properties.xml" />
     <Compile Include="EmailNotifier.ps1" />
+    <Compile Include="EventsStorage.ps1" />
     <Compile Include="InstanceCrawler.ps1" />
     <Compile Include="InstanceGroup.ps1" />
     <Compile Include="InstanceSelector.ps1" />
