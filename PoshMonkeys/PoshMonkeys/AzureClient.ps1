@@ -52,5 +52,13 @@ class AzureClient {
 	{
 		return Get-AzureVM | Where-Object {$_.AvailabilitySetName -eq "$AvailabilitySetName"};
     }
+
+	[bool] IsPSEnabledInstance([string] $name, [string] $serviceName) 
+	{
+		$vm = Get-AzureVM -Name $name -ServiceName $serviceName;
+		
+		$psEndpoint = $vm.vm.ConfigurationSets | Where-Object {$_.InputEndpoints | Where-Object {$_.Name -eq "PowerShell"}};
+		return $psEndpoint -ne $null;
+    }
 }
 
