@@ -21,7 +21,7 @@ class InstanceCrawler
 			$Instances = $azureClient.GetAllInstances($ASName);
 			foreach($Instance in $Instances)
 			{
-				$InstanceGroup.AddInstance($Instance.Name);
+				$InstanceGroup.AddInstance([Instance]::new($Instance.Name, $Instance.ServiceName));
 			}
 
 			$this.AllInstanceGroups += $InstanceGroup;
