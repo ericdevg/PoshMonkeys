@@ -17,11 +17,11 @@ class EventsStorage
 		}
 	}
 
-	[void] LogEvent([string] $message, [string] $logType, [string] $monkeyType)
+	[void] LogEvent([string] $message, [string] $logType, [string] $eventType)
 	{
 		$entity = New-Object Microsoft.WindowsAzure.Storage.Table.DynamicTableEntity($logType, [System.DateTime]::Now.Ticks.ToString());
 
-		$entity.Properties.Add("MonkeyType", $monkeyType);
+		$entity.Properties.Add("EventType", $eventType);
 		$entity.Properties.Add("Message", $message);
 		$entity.Properties.Add("LogType", $logType);
 		
@@ -32,12 +32,12 @@ class EventsStorage
 	{
 		$query = New-Object Microsoft.WindowsAzure.Storage.Table.TableQuery
 
-		#Set query details.
+		# set query details.
 		$query.FilterString = $filter;
 		$query.SelectColumns = $list
 		$query.TakeCount = $count;
 
-		#Execute the query.
+		# execute the query.
 		$entities = $this.Table.CloudTable.ExecuteQuery($query)
 
 		return $entities;
