@@ -14,7 +14,7 @@ class Logger
 			$this.Storage = $storage;
 		}
 
-		if(($logPath -eq $null) -or (Test-Path "$logPath" -eq $false))
+		if(($logPath -eq $null) -or ((Test-Path "$logPath") -eq $false))
 		{
 			Write-Error "Invalid log path!";
 			$logPath = "$PSScriptRoot\";
@@ -83,13 +83,13 @@ class Logger
 		Write-Host "$message"
 	}
 
-	[void] LogMonkeyEvent([string] $monkeyType, [string] $message)
+	[void] LogEvent([string] $message, [string] $logType, [string] $monkeyType)
 	{
-		$this.Log($message);
+		$this.Log("[$logType][$monkeyType]: $message");
 
 		if($this.Storage -ne $null)
 		{
-			$this.Storage.LogEvent($monkeyType, $message);
+			$this.Storage.LogEvent($message, $logType, $monkeyType);
 		}
 	}
 }

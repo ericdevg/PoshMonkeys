@@ -3,4 +3,5 @@
   <TimeZone>-8</TimeZone>
   <OpenHour>9</OpenHour>
   <CloseHour>18</CloseHour>
+  <LogFilePath>C:\tip\PoshMonkeys\PoshMonkeys\PoshMonkeys\Log</LogFilePath>
 </Configurations>

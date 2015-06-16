@@ -17,9 +17,13 @@ class ChaosMonkeyConfig {
 
 	[array] $InstanceGroupChaosConfig;
 
-	ChaosMonkeyConfig()
+	[Logger] $Logger;
+
+	ChaosMonkeyConfig([Logger] $logger)
 	{
-		Write-Host "Loading Chaos monkey config"
+		$this.Logger = $logger;
+		
+		$this.Logger.LogEvent("Loading chaos monkey configuration ...", "ChaosMonkeyConfig", $null);
 		$this.ChaosConfig = [ClientConfig]::new("PoshMonkeys.Chaos.Properties.xml");
 
 		$this.Enabled = $this.ChaosConfig.XmlConfig.Configurations.Enabled;
@@ -32,13 +36,15 @@ class ChaosMonkeyConfig {
 
 		$this.InstanceGroupChaosConfig = @();
 
+		$this.Logger.LogEvent("Loading local all scaling group from configuration ...", "ChaosMonkeyConfig", $null);
 		$configGroups = $this.ChaosConfig.XmlConfig.SelectNodes("/Configurations/AvailabilitySets/AvailabilitySet");
 		foreach ($as in $configGroups)
 		{
-			$this.InstanceGroupChaosConfig += [ChaosInstanceGroupConfig]::new($this.ChaosConfig, $as.Name);
+			$this.Logger.LogEvent("$($as.Name) is found.", "ChaosMonkeyConfig", $null);
+			$this.InstanceGroupChaosConfig += [ChaosInstanceGroupConfig]::new($this.ChaosConfig, $as.Name, $this.Logger);
 		}
 		
-		Write-Host "Finished loading Chaos monkey config"
+		$this.Logger.LogEvent("Finished loading Chaos monkey config", "ChaosMonkeyConfig", $null);
 	}	
 }
 

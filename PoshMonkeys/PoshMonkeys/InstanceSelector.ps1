@@ -32,25 +32,37 @@ class InstanceSelector
 	[ChaosMonkeyConfig] $ChaosConfig;
 	[InstanceCrawler] $Crawler;
 
-	InstanceSelector([MonkeyCalendar] $calendar, [ChaosMonkeyConfig] $chaosConfig, [InstanceCrawler] $crawler)
+	[Logger] $Logger;
+
+	InstanceSelector([MonkeyCalendar] $calendar, [ChaosMonkeyConfig] $chaosConfig, [InstanceCrawler] $crawler, [Logger] $logger)
 	{
+		$this.Logger = $logger;
+
+		$this.Logger.LogEvent("Instantiating instance selector ...", "InstanceSelector", $null);
 		$this.Calendar = $calendar;
 		$this.ChaosConfig = $chaosConfig;
 		$this.Crawler = $crawler;
+		$this.Logger.LogEvent("Finished instantiating instance selector ...", "InstanceSelector", $null);
 	}
 	
 	[array] Select([string] $instanceGroupName)
 	{
+		$this.Logger.LogEvent("Selecting instance(s) under group $instanceGroupName ...", "InstanceSelector", $null);
+
 		$selectedInstances = @();
 
 		[InstanceGroup] $group = $this.Crawler.AllInstanceGroups | Where-Object {$_.Name -eq "$instanceGroupName"};
 
 		if($group -ne $null)
 		{
+			$this.Logger.LogEvent("Group $instanceGroupName was found.", "InstanceSelector", $null);
+
+			$this.Logger.LogEvent("Calculating possibilities ...", "InstanceSelector", $null);
 			[int] $openHours = $this.Calendar.CloseHour - $this.Calendar.OpenHour;
 			[ChaosInstanceGroupConfig] $groupConfig = $this.ChaosConfig.InstanceGroupChaosConfig | Where-Object {$_.Name -eq "$instanceGroupName"};
 			[int] $dailyProbability = $groupConfig.DailyProbability;
 			[double] $hourlyProbability = $dailyProbability / $openHours;
+			$this.Logger.LogEvent("DailyProbability = $dailyProbability, HourlyProbability = $hourlyProbability", "InstanceSelector", $null);
 
 			if($hourlyProbability -gt 1)
 			{
@@ -61,11 +73,18 @@ class InstanceSelector
 		
 			if($rand1 / 100 -lt $hourlyProbability)
 			{
+				$this.Logger.LogEvent("Hourly probability hit. Randomly picking up instances ...", "InstanceSelector", $null);
 				[int] $rand2 = Get-Random -Minimum 1 -Maximum $groupConfig.MaxAffectedInstance;
 				$selectedInstances = $group.Instances | Get-Random -Count $rand2;
+				$this.Logger.LogEvent("Hourly probability hit. Finished randomly picking up instances ...", "InstanceSelector", $null);
 			}
 		}
+		else
+		{
+			$this.Logger.LogEvent("Group $instanceGroupName was not found.", "InstanceSelector", $null);
+		}
 
+		$this.Logger.LogEvent("Finished selecting instances under group $instanceGroupName.", "InstanceSelector", $null);
 		return $selectedInstances;
 	}
 }

@@ -8,6 +8,7 @@ class AzureClient {
 	[string] $StorageAccountKey;
 	[string] $StorageTableName;
 	[ClientConfig] $AzureClientConfig;
+	[object] $Logger;
 
 	[void] ImportPublishSettings([string] $FilePath)
 	{
@@ -36,15 +37,19 @@ class AzureClient {
 
 	[array] GetAllAvailabilitySets() 
 	{
+		$this.Logger.LogEvent("Getting all availability sets ...", "AzureClient", $null);
+
 		$AvailabilitySets = @();
 
-        $UniqueList = Get-AzureVM | Select -Property AvailabilitySetName | Get-Unique
+        $UniqueList = Get-AzureVM | Select -Property AvailabilitySetName | Get-Unique;
 
 		foreach ($AS in $UniqueList)
 		{
 			$AvailabilitySets += $AS.AvailabilitySetName;
 		}
 
+		$this.Logger.LogEvent("Finish getting all availability sets ...", "AzureClient", $null);
+		
 		return $AvailabilitySets;
     }
 
