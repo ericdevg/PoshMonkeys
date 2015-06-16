@@ -83,13 +83,13 @@ class Logger
 		Write-Host "$message"
 	}
 
-	[void] LogEvent([string] $message, [string] $logType, [string] $monkeyType)
+	[void] LogEvent([string] $message, [string] $logType, [string] $eventType)
 	{
-		$this.Log("[$logType][$monkeyType]: $message");
+		$this.Log("[$logType][$eventType]: $message");
 
 		if($this.Storage -ne $null)
 		{
-			$this.Storage.LogEvent($message, $logType, $monkeyType);
+			$this.Storage.LogEvent($message, $logType, $eventType);
 		}
 	}
 }
