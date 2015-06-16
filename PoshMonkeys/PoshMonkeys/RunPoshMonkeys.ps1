@@ -2,6 +2,9 @@
 # RunPoshMonkeys.ps1
 #
 
+Import-Module Azure
+Add-Type -Path "$PSScriptRoot\Reference\Microsoft.WindowsAzure.Storage.dll";
+
 Import-Module "$PSScriptRoot\ClientConfig.ps1"
 Import-Module "$PSScriptRoot\AzureClient.ps1"
 Import-Module "$PSScriptRoot\EventsStorage.ps1"
@@ -17,27 +20,33 @@ Import-Module "$PSScriptRoot\MonkeyScheduler.ps1"
 Import-Module "$PSScriptRoot\Chaos\ChaosMonkey.ps1"
 Import-Module "$PSScriptRoot\Chaos\Events\BurnCpuEvent.ps1"
 
-# global config loading
 
+# global config loading
 $azureClient = [AzureClient]::new();
 $eventsStorage = [EventsStorage]::new($azureClient);
-
-$logger = [Logger]::new($PSScriptRoot, "PoshMonkeys", $eventsStorage);
-
 $monkeyConfig = [ClientConfig]::new("PoshMonkeys.Properties.xml");
-$calendar = [MonkeyCalendar]::new($monkeyConfig);
+
+# initantiate logger
+$logger = [Logger]::new($monkeyConfig.XmlConfig.Configurations.LogFilePath, "PoshMonkeys", $eventsStorage);
+$azureClient.Logger = $logger;
+
+# create monkey calendar
+$calendar = [MonkeyCalendar]::new($monkeyConfig, $logger);
 
 # monkeys config loading
-$chaosMonkeyConfig = [ChaosMonkeyConfig]::new();
+$chaosMonkeyConfig = [ChaosMonkeyConfig]::new($logger);
 
-# locate all target availability sets
-$crawler = [InstanceCrawler]::new($azureClient);
+# crawl for all target availability sets
+$crawler = [InstanceCrawler]::new($azureClient, $logger);
 
 # create all monkey instance
-$monkey = [ChaosMonkey]::new($azureClient, $calendar, $chaosMonkeyConfig, $crawler);
+$monkey = [ChaosMonkey]::new($azureClient, $calendar, $chaosMonkeyConfig, $crawler, $logger);
 
-# scheduler to run monkeys
-$scheduler = [MonkeyScheduler]::new($calendar);
+# create monkey scheduler
+$scheduler = [MonkeyScheduler]::new($calendar, $logger);
+
+# run all monkeys
 $scheduler.StartMonkeyJob($monkey);
 
+# clean all modules
 Get-Module | Remove-Module

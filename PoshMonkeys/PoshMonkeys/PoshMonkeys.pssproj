@@ -27,14 +27,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Folder Include="Chaos\Events\" />
+    <Folder Include="Chaos\Scripts\" />
     <Folder Include="Config\" />
     <Folder Include="Chaos\" />
+    <Folder Include="Reference\" />
     <Folder Include="Resources\" />
-    <Folder Include="Scripts\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Chaos\ChaosInstanceGroupConfig.ps1" />
     <Compile Include="Chaos\ChaosMonkeyConfig.ps1" />
+    <Compile Include="Chaos\Events\BurnCpuEvent.ps1" />
+    <Compile Include="Chaos\Scripts\burncpu.ps1" />
     <Compile Include="ClientConfig.ps1" />
     <Compile Include="AzureClient.ps1" />
     <Compile Include="Chaos\ChaosMonkey.ps1" />
@@ -44,6 +48,7 @@
     <Compile Include="Config\PoshMonkeys.Properties.xml" />
     <Compile Include="EmailNotifier.ps1" />
     <Compile Include="EventsStorage.ps1" />
+    <Compile Include="Instance.ps1" />
     <Compile Include="InstanceCrawler.ps1" />
     <Compile Include="InstanceGroup.ps1" />
     <Compile Include="InstanceSelector.ps1" />
@@ -52,7 +57,20 @@
     <Compile Include="MonkeyRunner.ps1" />
     <Compile Include="MonkeyScheduler.ps1" />
     <Compile Include="PoshMonkeys.ps1" />
+    <Compile Include="Resources\plink.exe" />
     <Compile Include="RunPoshMonkeys.ps1" />
+    <Compile Include="Chaos\Scripts\burncpu.sh" />
+    <Compile Include="Chaos\Scripts\burnio.sh" />
+    <Compile Include="Chaos\Scripts\faildns.sh" />
+    <Compile Include="Chaos\Scripts\faildynamodb.sh" />
+    <Compile Include="Chaos\Scripts\failec2.sh" />
+    <Compile Include="Chaos\Scripts\fails3.sh" />
+    <Compile Include="Chaos\Scripts\filldisk.sh" />
+    <Compile Include="Chaos\Scripts\killprocesses.sh" />
+    <Compile Include="Chaos\Scripts\networkcorruption.sh" />
+    <Compile Include="Chaos\Scripts\networklatency.sh" />
+    <Compile Include="Chaos\Scripts\networkloss.sh" />
+    <Compile Include="Chaos\Scripts\nullroute.sh" />
     <Compile Include="Start-PoshMonkeys.ps1" />
     <Compile Include="Stop-PoshMonkeys.ps1" />
   </ItemGroup>
