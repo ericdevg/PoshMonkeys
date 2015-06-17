@@ -3,7 +3,6 @@
 #
 
 Import-Module Azure
-Add-Type -Path "$PSScriptRoot\Reference\Microsoft.WindowsAzure.Storage.dll";
 
 Import-Module "$PSScriptRoot\ClientConfig.ps1"
 Import-Module "$PSScriptRoot\AzureClient.ps1"
