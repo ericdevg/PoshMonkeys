@@ -45,19 +45,19 @@ class ChaosMonkey
 			{
 				$this.Logger.LogEvent("Simulating the failure event on instance $($instance.Name)", "ChaosMonkey", $null);
 
-				[int] $rand = Get-Random -Minimum 0 -Maximum $this.EventsList.Count - 1;
+				[int] $rand = Get-Random -Minimum 0 -Maximum ($this.EventsList.Count - 1);
 
 				$this.Logger.LogEvent("Event $($this.EventsList[$rand]) is randomly selected for instance $($instance.Name)", "ChaosMonkey", $this.EventsList[$rand]);
-				$this.Logger.LogEvent("simulating $($this.EventsList[$rand]) on instance $($instance.Name)", "ChaosMonkey", $this.EventsList[$rand]);
+				$this.Logger.LogEvent("Simulating $($this.EventsList[$rand]) on instance $($instance.Name)", "ChaosMonkey", $this.EventsList[$rand]);
 
 				$vmInstance = Get-AzureVM -Name $instance.Name -ServiceName $instance.ServiceName;
 
-				if (($vmInstance.ConfigurationSets[0].InputEndpoints | Where-Object {$_.Name -eq "SSH"}) -ne $null)
+				if (($vmInstance.VM.ConfigurationSets[0].InputEndpoints | Where-Object {$_.Name -eq "SSH"}) -ne $null)
 				{
 					# linux machine
 					$this.Logger.LogEvent("Using SSH to simulate event on instance $($instance.Name)", "ChaosMonkey", $this.EventsList[$rand]);
 				}
-				elseif (($vmInstance.ConfigurationSets[0].InputEndpoints | Where-Object {$_.Name -eq "PowerShell"}) -ne $null)
+				elseif (($vmInstance.VM.ConfigurationSets[0].InputEndpoints | Where-Object {$_.Name -eq "PowerShell"}) -ne $null)
 				{
 					# windows machine
 					$this.Logger.LogEvent("Using PowerShell to simulate event on instance $($instance.Name)", "ChaosMonkey", $this.EventsList[$rand]);

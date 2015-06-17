@@ -24,7 +24,7 @@ class MonkeyScheduler
 		if ($this.Calendar.IsMonkeyBusinessTime())
 		{
 			#. $PSScriptRoot\MonkeyRunner.ps1 $monkey $this.Logger;
-
+			
 			$script = {
 				param($p1, $p2, $p3)
 				. "$p1\MonkeyRunner.ps1" -Monkey $p2 -Logger $p3;
