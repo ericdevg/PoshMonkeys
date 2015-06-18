@@ -17,7 +17,7 @@ class MonkeyScheduler
 		$this.Logger.LogEvent("Finished instantiating MonkeyScheduler ...", "MonkeyScheduler", $null);
 	}
 
-	[void] StartMonkeyJob([object] $monkey)
+	[IAsyncResult] StartMonkeyJob([object] $monkey)
 	{
 		$this.Logger.LogEvent("Starting MonkeyRunner job to send monkey to work ...", "MonkeyScheduler", $null);
 
@@ -27,22 +27,22 @@ class MonkeyScheduler
 			
 			$script = {
 				param($p1, $p2, $p3)
-				. "$p1\MonkeyRunner.ps1" -Monkey $p2 -Logger $p3;
+				. "C:\tip\PoshMonkeys\PoshMonkeys\PoshMonkeys\MonkeyRunner.ps1" -Monkey $p2 -Logger $p3;
 			};
 
 			$p = [PowerShell]::Create();
+
 			$p.AddScript($script).AddArgument($PSScriptRoot).AddArgument($monkey).AddArgument($this.Logger);
 
 			# asynchonizely call monkey runner
 			$job = $p.BeginInvoke();
-
-			# wait for it to complete
-			#$done = $job.AsyncWaitHandle.WaitOne()
-
+			
 			# get the output, this line prints 42
 			#$p.EndInvoke($job)
 
 			$this.Logger.LogEvent("Finished sending monkey to work ...", "MonkeyScheduler", $null);
+
+			return $job;
 		}
 		else
 		{

@@ -1,8 +1,5 @@
 #
 # Stop_PoshMonkeys.ps1
 #
-Import-Module "$PSScriptRoot\Logger.ps1"
-Import-Module "$PSScriptRoot\PoshMonkeys.ps1"
 
-$poshMonkeys = [PoshMonkeys]::new();
-$poshMonkeys.Stop();
+Unregister-ScheduledJob -Name "PoshMonkeys schedule run" -Force

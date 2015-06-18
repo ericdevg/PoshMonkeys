@@ -2,8 +2,6 @@
 # ChaosMonkeyConfig.ps1
 #
 
-Import-Module "$PSScriptRoot\ChaosInstanceGroupConfig.ps1"
-
 class ChaosMonkeyConfig {
 	[bool] $Enabled;
 	[bool] $Leashed;
