@@ -3,7 +3,8 @@
 #
 
 Param(
-	[string] $ModulePath = $PSScriptRoot
+	[string] $ModulePath = $PSScriptRoot,
+	[PSCredential] $cred
 )
 
 Import-Module Azure
@@ -22,7 +23,6 @@ Import-Module "$ModulePath\InstanceSelector.ps1"
 Import-Module "$ModulePath\MonkeyScheduler.ps1"
 Import-Module "$ModulePath\Chaos\ChaosMonkey.ps1"
 Import-Module "$ModulePath\Chaos\Events\BurnCpuEvent.ps1"
-
 
 # global config loading
 $azureClient = [AzureClient]::new();
@@ -49,7 +49,7 @@ $monkey = [ChaosMonkey]::new($azureClient, $calendar, $chaosMonkeyConfig, $crawl
 $scheduler = [MonkeyScheduler]::new($calendar, $logger);
 
 # run all monkeys
-$job = $scheduler.StartMonkeyJob($monkey);
+$job = $scheduler.StartMonkeyJob($monkey, $cred);
 
 # wait for all of them to finish work
 $job.AsyncWaitHandle.WaitOne()

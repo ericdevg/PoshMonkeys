@@ -4,7 +4,8 @@
 
 Param(
 	[object][Parameter(Mandatory=$true, Position=1)] $Monkey,
-	[object][Parameter(Mandatory=$true, Position=2)] $Logger
+	[object][Parameter(Mandatory=$true, Position=2)] $Logger,
+	[PSCredential][Parameter(Mandatory=$true, Position=3)] $Cred
 )
 
 Import-Module Azure
@@ -22,9 +23,10 @@ Import-Module "$PSScriptRoot\Chaos\ChaosMonkeyConfig.ps1"
 Import-Module "$PSScriptRoot\InstanceSelector.ps1"
 Import-Module "$PSScriptRoot\MonkeyScheduler.ps1"
 Import-Module "$PSScriptRoot\Chaos\ChaosMonkey.ps1"
+Import-Module "$PSScriptRoot\Chaos\EventSimulator.ps1"
 Import-Module "$PSScriptRoot\Chaos\Events\BurnCpuEvent.ps1"
 
 
 $Logger.LogEvent("Starting to run monkey", "MonkeyRunner", $null);
-$Monkey.DoBusiness();
+$Monkey.DoBusiness($Cred);
 $Logger.LogEvent("Monkey finished his work", "MonkeyRunner", $null);

@@ -25,10 +25,10 @@ class ChaosMonkey
 		$this.Crawler = $crawler;
 		$this.Logger.LogEvent("Finished creating chaos monkey ...", "ChaoMonkey", $null);
 
-		$this.EventsList = Get-Item $PSScriptRoot\Scripts\*.sh | Select-Object Name | ForEach-Object {$_.Name.Substring(0, $_.Name.LastIndexOf('.'))};
+		$this.EventsList = Get-Item $PSScriptRoot\Events\*.ps1 | Select-Object Name | ForEach-Object {$_.Name.Substring(0, $_.Name.LastIndexOf('.'))};
 	}
 
-	[void] DoBusiness()
+	[void] DoBusiness([PSCredential] $cred)
 	{
 		$this.Logger.LogEvent("Chaos Monkey start sworking on his business ...", "ChaosMonkey", $null);
 		$this.Logger.LogEvent("Instance selector starts picking up instance ...", "ChaosMonkey", $null);
@@ -52,19 +52,8 @@ class ChaosMonkey
 
 				$vmInstance = Get-AzureVM -Name $instance.Name -ServiceName $instance.ServiceName;
 
-				if (($vmInstance.VM.ConfigurationSets[0].InputEndpoints | Where-Object {$_.Name -eq "SSH"}) -ne $null)
-				{
-					# linux machine
-					$this.Logger.LogEvent("Using SSH to simulate event on instance $($instance.Name)", "ChaosMonkey", $this.EventsList[$rand]);
-				}
-				elseif (($vmInstance.VM.ConfigurationSets[0].InputEndpoints | Where-Object {$_.Name -eq "PowerShell"}) -ne $null)
-				{
-					# windows machine
-					$this.Logger.LogEvent("Using PowerShell to simulate event on instance $($instance.Name)", "ChaosMonkey", $this.EventsList[$rand]);
+				. $PSScriptRoot\Scripts\$($this.EventsList[$rand]).ps1 -Instance $vmInstance -Logger $this.Logger -Credential $cred;
 
-					#Invoke-Command -ComputerName $vmInstance.Name -FilePath "$PSScriptRoot\Scripts\$($this.EventsList[$rand]).ps1" -Credential
-				}
-				
 				$this.Logger.LogEvent("Finished to simulating $($this.EventsList[$rand]) on instance $($instance.Name)", "ChaosMonkey", $this.EventsList[$rand]);
 			}
 		}

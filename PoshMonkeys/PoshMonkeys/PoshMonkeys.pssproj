@@ -56,7 +56,6 @@
     <Compile Include="MonkeyCalendar.ps1" />
     <Compile Include="MonkeyRunner.ps1" />
     <Compile Include="MonkeyScheduler.ps1" />
-    <Compile Include="PoshMonkeys.ps1" />
     <Compile Include="Resources\plink.exe" />
     <Compile Include="RunPoshMonkeys.ps1" />
     <Compile Include="Chaos\Scripts\burncpu.sh" />
