@@ -17,7 +17,7 @@ class MonkeyScheduler
 		$this.Logger.LogEvent("Finished instantiating MonkeyScheduler ...", "MonkeyScheduler", $null);
 	}
 
-	[IAsyncResult] StartMonkeyJob([object] $monkey)
+	[IAsyncResult] StartMonkeyJob([object] $monkey, [PSCredential] $cred)
 	{
 		$this.Logger.LogEvent("Starting MonkeyRunner job to send monkey to work ...", "MonkeyScheduler", $null);
 
@@ -26,19 +26,16 @@ class MonkeyScheduler
 			#. $PSScriptRoot\MonkeyRunner.ps1 $monkey $this.Logger;
 			
 			$script = {
-				param($p1, $p2, $p3)
-				. "C:\tip\PoshMonkeys\PoshMonkeys\PoshMonkeys\MonkeyRunner.ps1" -Monkey $p2 -Logger $p3;
+				param($p1, $p2, $p3, $p4)
+				. "$p1\MonkeyRunner.ps1" -Monkey $p2 -Logger $p3 -Cred $p4;
 			};
 
 			$p = [PowerShell]::Create();
 
-			$p.AddScript($script).AddArgument($PSScriptRoot).AddArgument($monkey).AddArgument($this.Logger);
+			$p.AddScript($script).AddArgument($PSScriptRoot).AddArgument($monkey).AddArgument($this.Logger).AddArgument($cred);
 
 			# asynchonizely call monkey runner
 			$job = $p.BeginInvoke();
-			
-			# get the output, this line prints 42
-			#$p.EndInvoke($job)
 
 			$this.Logger.LogEvent("Finished sending monkey to work ...", "MonkeyScheduler", $null);
 
