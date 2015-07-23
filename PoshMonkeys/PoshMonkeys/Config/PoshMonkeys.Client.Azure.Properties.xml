@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <Configurations>
   <PublishSetting>C:\tip\Internal Consumption-6-3-2015-credentials.publishsettings</PublishSetting>
+  <SubscriptionName>Internal Consumption</SubscriptionName>
   <StorageAccountName>poshmonkeys</StorageAccountName>
   <StorageAccountKey></StorageAccountKey>
   <StorageTableName>poshmonkeysevents</StorageTableName>

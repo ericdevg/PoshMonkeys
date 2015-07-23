@@ -23,7 +23,7 @@ class MonkeyScheduler
 
 		if ($this.Calendar.IsMonkeyBusinessTime())
 		{
-			#. $PSScriptRoot\MonkeyRunner.ps1 $monkey $this.Logger;
+			#& $PSScriptRoot\MonkeyRunner.ps1 $monkey $this.Logger $cred;
 			
 			$script = {
 				param($p1, $p2, $p3, $p4)
@@ -36,10 +36,11 @@ class MonkeyScheduler
 
 			# asynchonizely call monkey runner
 			$job = $p.BeginInvoke();
-
+			
 			$this.Logger.LogEvent("Finished sending monkey to work ...", "MonkeyScheduler", $null);
 
 			return $job;
+			#return $null;
 		}
 		else
 		{

@@ -3,9 +3,15 @@
 #
 
 Param(
-	[PersistentVMRoleListContext] $Instance,
-	[Logger] $Logger,
+	[object] $Instance,
+	[object] $Logger,
 	[PSCredential] $Credential
 )
 
-Simulate($Instance, $Logger, $Credential, "burncpu");
+if($Credential -eq $null)
+{
+	$Credential = Get-Credential;
+}
+
+$sim = [EventSimulator]::new($Instance, $Logger);
+$sim.ExecuteScript("burncpu", $Credential);

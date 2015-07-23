@@ -45,18 +45,24 @@ class ChaosMonkey
 			{
 				$this.Logger.LogEvent("Simulating the failure event on instance $($instance.Name)", "ChaosMonkey", $null);
 
-				[int] $rand = Get-Random -Minimum 0 -Maximum ($this.EventsList.Count - 1);
+				[int] $rand = 0;
+				if($this.EventsList.Count > 1)
+				{
+					$rand = Get-Random -Minimum 0 -Maximum ($this.EventsList.Count - 1);
+				}
 
 				$this.Logger.LogEvent("Event $($this.EventsList[$rand]) is randomly selected for instance $($instance.Name)", "ChaosMonkey", $this.EventsList[$rand]);
 				$this.Logger.LogEvent("Simulating $($this.EventsList[$rand]) on instance $($instance.Name)", "ChaosMonkey", $this.EventsList[$rand]);
 
 				$vmInstance = Get-AzureVM -Name $instance.Name -ServiceName $instance.ServiceName;
 
-				. $PSScriptRoot\Scripts\$($this.EventsList[$rand]).ps1 -Instance $vmInstance -Logger $this.Logger -Credential $cred;
+				# you cannot dot sourcing script from class method
+				& $PSScriptRoot\Events\$($this.EventsList[$rand]).ps1 -Instance $vmInstance -Logger $this.Logger -Credential $cred;
 
 				$this.Logger.LogEvent("Finished to simulating $($this.EventsList[$rand]) on instance $($instance.Name)", "ChaosMonkey", $this.EventsList[$rand]);
 			}
 		}
+		
 		
 		$this.Logger.LogEvent("Chaos Monkey finished his business ...", "ChaosMonkey", $null);
 	}
