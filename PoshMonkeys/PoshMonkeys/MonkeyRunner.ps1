@@ -24,9 +24,7 @@ Import-Module "$PSScriptRoot\InstanceSelector.ps1"
 Import-Module "$PSScriptRoot\MonkeyScheduler.ps1"
 Import-Module "$PSScriptRoot\Chaos\ChaosMonkey.ps1"
 Import-Module "$PSScriptRoot\Chaos\EventSimulator.ps1"
-Import-Module "$PSScriptRoot\Chaos\Events\BurnCpuEvent.ps1"
 
-
-$Logger.LogEvent("Starting to run monkey", "MonkeyRunner", $null);
+$Logger.LogEvent("Starting to run monkey", "MonkeyRunner", "");
 $Monkey.DoBusiness($Cred);
-$Logger.LogEvent("Monkey finished his work", "MonkeyRunner", $null);
+$Logger.LogEvent("Monkey finished his work", "MonkeyRunner", "");

@@ -2,25 +2,39 @@
 # EventSimulator.ps1
 #
 
-function Simulate
+class EventSimulator
 {
-	Param(
-		[PersistentVMRoleListContext] $Instance,
-		[Logger] $Logger,
-		[PSCredential] $Cred,
-		[string] $ScriptName
-	)
+	[object] $Instance;
+	[object] $Logger;
+	[PSCredential] $Cred;
+	[string] $ScriptName;
 
-	if (($Instance.VM.ConfigurationSets[0].InputEndpoints | Where-Object {$_.Name -eq "SSH"}) -ne $null)
+	EventSimulator([object] $instance, [Logger] $logger)
 	{
-		# linux machine
-		$Logger.LogEvent("Using SSH to simulate event on instance $($instance.Name)", "ChaosMonkey", $ScriptName);
+		$this.Instance = $instance;
+		$this.Logger = $logger;
 	}
-	elseif (($Instance.VM.ConfigurationSets[0].InputEndpoints | Where-Object {$_.Name -eq "PowerShell"}) -ne $null)
-	{
-		# windows machine
-		$Logger.LogEvent("Using PowerShell to simulate event on instance $($instance.Name)", "ChaosMonkey", $this.EventsList[$rand]);
 
-		Invoke-Command -ComputerName $Instance.Name -FilePath "$PSScriptRoot\Scripts\$ScriptName.ps1" -Credential $cred
+	[void] ExecuteScript([string] $scriptName, [PSCredential] $cred)
+	{
+		if (($this.Instance.VM.ConfigurationSets[0].InputEndpoints | Where-Object {$_.Name -eq "SSH"}) -ne $null)
+		{
+			# linux machine
+			if($this.Logger -ne $null)
+			{
+				$this.Logger.LogEvent("Using SSH to simulate event on instance $($this.Instance.Name)", "ChaosMonkey", $ScriptName);
+			}
+		}
+		elseif (($this.Instance.VM.ConfigurationSets[0].InputEndpoints | Where-Object {$_.Name -eq "PowerShell"}) -ne $null)
+		{
+			if($this.Logger -ne $null)
+			{
+				# windows machine
+				$this.Logger.LogEvent("Using PowerShell to simulate event on instance $($this.Instance.Name)", "ChaosMonkey", $ScriptName);
+			}
+
+			$endpoint = ($this.Instance.VM.ConfigurationSets[0].InputEndpoints | Where-Object {$_.Name -eq "PowerShell"}).Port;
+			Invoke-Command -ComputerName "$($this.Instance.ServiceName).CloudApp.net" -FilePath "$PSScriptRoot\Scripts\$ScriptName.ps1" -Credential $cred -UseSSL -Port $endpoint;
+		}
 	}
 }

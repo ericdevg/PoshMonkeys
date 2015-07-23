@@ -14,7 +14,7 @@
     <AvailabilitySet>
       <Name>AS008</Name>
       <Enabled>1</Enabled>
-      <DailyProbability>1</DailyProbability>
+      <DailyProbability>8</DailyProbability>
       <MaxAffectedInstance>2</MaxAffectedInstance>
     </AvailabilitySet>
   </AvailabilitySets>

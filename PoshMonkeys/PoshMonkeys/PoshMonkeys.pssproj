@@ -37,6 +37,7 @@
   <ItemGroup>
     <Compile Include="Chaos\ChaosInstanceGroupConfig.ps1" />
     <Compile Include="Chaos\ChaosMonkeyConfig.ps1" />
+    <Compile Include="Chaos\EventSimulator.ps1" />
     <Compile Include="Chaos\Events\BurnCpuEvent.ps1" />
     <Compile Include="Chaos\Scripts\burncpu.ps1" />
     <Compile Include="ClientConfig.ps1" />
@@ -48,6 +49,7 @@
     <Compile Include="Config\PoshMonkeys.Properties.xml" />
     <Compile Include="EmailNotifier.ps1" />
     <Compile Include="EventsStorage.ps1" />
+    <Compile Include="InstallWinRMCertAzureVM.ps1" />
     <Compile Include="Instance.ps1" />
     <Compile Include="InstanceCrawler.ps1" />
     <Compile Include="InstanceGroup.ps1" />

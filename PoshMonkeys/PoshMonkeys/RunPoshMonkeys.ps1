@@ -22,7 +22,11 @@ Import-Module "$ModulePath\Chaos\ChaosMonkeyConfig.ps1"
 Import-Module "$ModulePath\InstanceSelector.ps1"
 Import-Module "$ModulePath\MonkeyScheduler.ps1"
 Import-Module "$ModulePath\Chaos\ChaosMonkey.ps1"
-Import-Module "$ModulePath\Chaos\Events\BurnCpuEvent.ps1"
+
+if($cred -eq $null)
+{
+	$cred = Get-Credential;
+}
 
 # global config loading
 $azureClient = [AzureClient]::new();
@@ -52,7 +56,10 @@ $scheduler = [MonkeyScheduler]::new($calendar, $logger);
 $job = $scheduler.StartMonkeyJob($monkey, $cred);
 
 # wait for all of them to finish work
-$job.AsyncWaitHandle.WaitOne()
+if($job -ne $null)
+{
+	$job.AsyncWaitHandle.WaitOne();
+}
 
 # clean all modules
 Get-Module | Remove-Module
