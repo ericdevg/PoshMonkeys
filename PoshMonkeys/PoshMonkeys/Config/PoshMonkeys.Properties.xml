@@ -1,7 +1,11 @@
 <?xml version="1.0"?>
+<!--Global configuration for all PoshMonkeys-->
 <Configurations>
+  <!--Monkey calendar configuration, it is recommended to have this calendar align with engineer's normal working schedule-->
   <TimeZone>-8</TimeZone>
   <OpenHour>9</OpenHour>
   <CloseHour>18</CloseHour>
+  
+  <!--File logger [optional]-->
   <LogFilePath>C:\tip\PoshMonkeys\PoshMonkeys\PoshMonkeys\Log</LogFilePath>
 </Configurations>

@@ -88,8 +88,6 @@ Function Log-Email{
 
       $sBody = (Get-Content $LogPath | out-string)
 
-      
-
       #Create SMTP object and send email
 
       $sSmtpServer = "smtp.yourserver"

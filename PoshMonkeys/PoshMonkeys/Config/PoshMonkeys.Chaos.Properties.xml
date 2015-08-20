@@ -1,9 +1,19 @@
 <?xml version="1.0"?>
 <Configurations>
+  <!--Chaos monkey on/off switch-->
   <Enabled>1</Enabled>
+  
+  <!--Leashed Chaos monkey follows the probability configuration-->
+  <!--Unleashed Chaos monkey goes with completely random mode-->
   <Leashed>1</Leashed>
+  
+  <!--How many times Chaos monkey be activated in daily basis in average, can be decimal, but expression is not allowed-->
   <DailyProbability>1</DailyProbability>
+
+  <!--How many Azure instances at most Chaos monkey can touch on each of its activity on each of availability set-->
   <MaxAffectedInstance>1</MaxAffectedInstance>
+
+  <!--Customize configuration for specific availability set [optional]-->
   <AvailabilitySets>
     <AvailabilitySet>
       <Name>AS007</Name>
@@ -18,9 +28,11 @@
       <MaxAffectedInstance>2</MaxAffectedInstance>
     </AvailabilitySet>
   </AvailabilitySets>
+
+  <!--Notification service configuration-->
   <Notification>
     <Enabled>1</Enabled>
-    <ReceiverEmail>zhiyd@microsoft.com</ReceiverEmail>
-    <SenderEmail>zhiyd@microsoft.com</SenderEmail>
+    <ReceiverEmail>user@email.com</ReceiverEmail>
+    <SenderEmail>poshmonkeys@email.com</SenderEmail>
   </Notification>
 </Configurations>

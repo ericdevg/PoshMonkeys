@@ -66,6 +66,20 @@ class ChaosMonkey
 		
 		$this.Logger.LogEvent("Chaos Monkey finished his business ...", "ChaosMonkey", $null);
 	}
+
+	[void] DoTask([PSCredential] $cred, [string] $instanceName, [string] $serviceName, [string] $eventName)
+	{
+		$this.Logger.LogEvent("Chaos Monkey start sworking on his assigned task ...", "ChaosMonkey", $null);
+
+		$vmInstance = Get-AzureVM -Name $instanceName -ServiceName $serviceName;
+
+		# you cannot dot sourcing script from class method
+		& $PSScriptRoot\Events\$eventName.ps1 -Instance $vmInstance -Logger $this.Logger -Credential $cred;
+
+		$this.Logger.LogEvent("Finished to simulating $eventName on instance $instanceName", "ChaosMonkey", $eventName);
+		
+		$this.Logger.LogEvent("Chaos Monkey finished his task ...", "ChaosMonkey", $null);
+	}
 }
 
 
