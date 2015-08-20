@@ -73,11 +73,11 @@ class Logger
 		if($storage -ne $null)
 		{
 			$this.Storage = $storage;
-			$this.Logger.Log("Azure storage table is ready for PoshMonkey activity logging.");
+			$this.Log("Azure storage table is ready for PoshMonkey activity logging.");
 		}
 		else
 		{
-			$this.Logger.Log("Warning: No Azure storage table ready for PoshMonkey activity logging.");
+			$this.Log("Warning: No Azure storage table ready for PoshMonkey activity logging.");
 		}
 	}
 

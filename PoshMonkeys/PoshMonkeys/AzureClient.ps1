@@ -31,7 +31,7 @@ class AzureClient {
 		try
 		{
 			$this.PublishSettingsFile = $this.AzureClientConfig.XmlConfig.Configurations.PublishSetting;
-			$this.ImportPublishSettings($this.Logger);
+			$this.ImportPublishSettings();
 			$this.StorageAccountName = $this.AzureClientConfig.XmlConfig.Configurations.StorageAccountName;
 			$this.StorageAccountKey = $this.AzureClientConfig.XmlConfig.Configurations.StorageAccountKey;
 			$this.StorageTableName = $this.AzureClientConfig.XmlConfig.Configurations.StorageTableName;
@@ -52,7 +52,7 @@ class AzureClient {
 
 		try
 		{
-			$UniqueList = Get-AzureVM | Select -Property AvailabilitySetName | Get-Unique;
+			$UniqueList = Get-AzureVM | Select -Property AvailabilitySetName -Unique;
 
 			foreach ($AS in $UniqueList)
 			{
@@ -72,7 +72,7 @@ class AzureClient {
 
 	[array] GetAllInstances([string] $availabilitySetName) 
 	{
-		return Get-AzureVM | Where-Object {$_.AvailabilitySetName -eq "$availabilitySetName"};
+		return Get-AzureVM | Where-Object {$_.AvailabilitySetName -eq "$availabilitySetName" -and $_.Status -eq "ReadyRole"};
     }
 
 	[bool] IsPSEnabledInstance([string] $name, [string] $serviceName) 

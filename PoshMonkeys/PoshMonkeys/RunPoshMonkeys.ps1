@@ -59,8 +59,7 @@ if($Manual -eq $false)
 	$crawler = [InstanceCrawler]::new($azureClient, $logger);
 
 	# create all monkey instance
-	$monkeys = @();
-	$monkeys.Add([ChaosMonkey]::new($azureClient, $calendar, $chaosMonkeyConfig, $crawler, $logger));
+	$monkeys = @([ChaosMonkey]::new($azureClient, $calendar, $chaosMonkeyConfig, $crawler, $logger));
 
 	# create monkey scheduler
 	$scheduler = [MonkeyScheduler]::new($calendar, $logger);
