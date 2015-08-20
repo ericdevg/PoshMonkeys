@@ -8,6 +8,8 @@ Param(
 	[PSCredential][Parameter(Mandatory=$true, Position=3)] $Cred
 )
 
+$ErrorActionPreference = "stop"
+
 Import-Module Azure
 
 Import-Module "$PSScriptRoot\ClientConfig.ps1"
@@ -26,5 +28,14 @@ Import-Module "$PSScriptRoot\Chaos\ChaosMonkey.ps1"
 Import-Module "$PSScriptRoot\Chaos\EventSimulator.ps1"
 
 $Logger.LogEvent("Starting to run monkey", "MonkeyRunner", "");
-$Monkey.DoBusiness($Cred);
+
+try
+{
+	$Monkey.DoBusiness($Cred);
+}
+catch
+{
+	$Logger.LogEvent($_, "MonkeyRunner", "Error");
+}
+
 $Logger.LogEvent("Monkey finished his work", "MonkeyRunner", "");

@@ -10,29 +10,38 @@ class AzureClient {
 	[ClientConfig] $AzureClientConfig;
 	[object] $Logger;
 
-	[void] ImportPublishSettings([string] $FilePath)
+	[void] ImportPublishSettings()
 	{
-		Write-Host "Importing publishsettings from $($this.PublishSettingsFile)";
+		$this.Logger.Log("Importing publishsettings from $($this.PublishSettingsFile)");
 
 		Import-AzurePublishSettingsFile -PublishSettingsFile "'$($this.PublishSettingsFile)'";
 		
-		Write-Host "Finished importing publishsettings from $($this.PublishSettingsFile)";
+		$this.Logger.Log("Finished importing publishsettings from $($this.PublishSettingsFile)");
 	}
 
-	AzureClient()
+	AzureClient([object] $logger)
 	{
-		Write-Host "Initializaing AzureClient";
+		$this.Logger = $logger;
+
+		$this.Logger.Log("Initializaing AzureClient");
 
 		$this.AzureClientConfig = [ClientConfig]::new("PoshMonkeys.Client.Azure.Properties.xml");
 
-		Write-Host "Loading configurations for AzureClient";
-		$this.PublishSettingsFile = $this.AzureClientConfig.XmlConfig.Configurations.PublishSetting;
-		$this.ImportPublishSettings($this.PublishSettingsFile);
-		$this.StorageAccountName = $this.AzureClientConfig.XmlConfig.Configurations.StorageAccountName;
-		$this.StorageAccountKey = $this.AzureClientConfig.XmlConfig.Configurations.StorageAccountKey;
-		$this.StorageTableName = $this.AzureClientConfig.XmlConfig.Configurations.StorageTableName;
-
-		Write-Host "Finished initializing AzureClient";
+		$this.Logger.Log("Loading configurations for AzureClient");
+		try
+		{
+			$this.PublishSettingsFile = $this.AzureClientConfig.XmlConfig.Configurations.PublishSetting;
+			$this.ImportPublishSettings($this.Logger);
+			$this.StorageAccountName = $this.AzureClientConfig.XmlConfig.Configurations.StorageAccountName;
+			$this.StorageAccountKey = $this.AzureClientConfig.XmlConfig.Configurations.StorageAccountKey;
+			$this.StorageTableName = $this.AzureClientConfig.XmlConfig.Configurations.StorageTableName;
+		}
+		catch
+		{
+			$this.Logger.Log($_);
+			throw;
+		}
+		$this.Logger.Log("Finished initializing AzureClient");
 	}
 
 	[array] GetAllAvailabilitySets() 
@@ -41,11 +50,19 @@ class AzureClient {
 
 		$AvailabilitySets = @();
 
-        $UniqueList = Get-AzureVM | Select -Property AvailabilitySetName | Get-Unique;
-
-		foreach ($AS in $UniqueList)
+		try
 		{
-			$AvailabilitySets += $AS.AvailabilitySetName;
+			$UniqueList = Get-AzureVM | Select -Property AvailabilitySetName | Get-Unique;
+
+			foreach ($AS in $UniqueList)
+			{
+				$AvailabilitySets += $AS.AvailabilitySetName;
+			}
+		}
+		catch
+		{
+			$this.Logger.LogEvent($_, "AzureClient", "Error");
+			throw;
 		}
 
 		$this.Logger.LogEvent("Finish getting all availability sets ...", "AzureClient", $null);
@@ -53,9 +70,9 @@ class AzureClient {
 		return $AvailabilitySets;
     }
 
-	[array] GetAllInstances([string] $AvailabilitySetName) 
+	[array] GetAllInstances([string] $availabilitySetName) 
 	{
-		return Get-AzureVM | Where-Object {$_.AvailabilitySetName -eq "$AvailabilitySetName"};
+		return Get-AzureVM | Where-Object {$_.AvailabilitySetName -eq "$availabilitySetName"};
     }
 
 	[bool] IsPSEnabledInstance([string] $name, [string] $serviceName) 

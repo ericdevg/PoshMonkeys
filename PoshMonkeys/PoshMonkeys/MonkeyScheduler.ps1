@@ -17,34 +17,42 @@ class MonkeyScheduler
 		$this.Logger.LogEvent("Finished instantiating MonkeyScheduler ...", "MonkeyScheduler", $null);
 	}
 
-	[IAsyncResult] StartMonkeyJob([object] $monkey, [PSCredential] $cred)
+	[void] StartMonkeyJob([Array] $monkeys, [PSCredential] $cred)
 	{
 		$this.Logger.LogEvent("Starting MonkeyRunner job to send monkey to work ...", "MonkeyScheduler", $null);
 
-		if ($this.Calendar.IsMonkeyBusinessTime())
+		try
 		{
-			#& $PSScriptRoot\MonkeyRunner.ps1 $monkey $this.Logger $cred;
+			if ($this.Calendar.IsMonkeyBusinessTime())
+			{
+				#& $PSScriptRoot\MonkeyRunner.ps1 $monkey $this.Logger $cred;
 			
-			$script = {
-				param($p1, $p2, $p3, $p4)
-				. "$p1\MonkeyRunner.ps1" -Monkey $p2 -Logger $p3 -Cred $p4;
-			};
+				$script = {
+					param($p1, $p2, $p3, $p4)
+					. "$p1\MonkeyRunner.ps1" -Monkey $p2 -Logger $p3 -Cred $p4;
+				};
 
-			$p = [PowerShell]::Create();
+				foreach($monkey in $monkeys)
+				{
+					$p = [PowerShell]::Create();
 
-			$p.AddScript($script).AddArgument($PSScriptRoot).AddArgument($monkey).AddArgument($this.Logger).AddArgument($cred);
+					$p.AddScript($script).AddArgument($PSScriptRoot).AddArgument($monkey).AddArgument($this.Logger).AddArgument($cred);
 
-			# asynchonizely call monkey runner
-			$job = $p.BeginInvoke();
+					# asynchonizely call monkey runner
+					$job = $p.BeginInvoke();
 			
-			$this.Logger.LogEvent("Finished sending monkey to work ...", "MonkeyScheduler", $null);
-
-			return $job;
-			#return $null;
+					$this.Logger.LogEvent("Finished sending monkey to work ...", "MonkeyScheduler", $null);
+				}
+			}
+			else
+			{
+				$this.Logger.LogEvent("This monkey is not in business hour accourding to calendar ...", "MonkeyScheduler", $null);
+			}
 		}
-		else
+		catch
 		{
-			$this.Logger.LogEvent("This monkey is not in business hour accourding to calendar ...", "MonkeyScheduler", $null);
+			$this.Logger.LogEvent($_, "MonkeyScheduler", "Error");
+			throw;
 		}
 	}
 
