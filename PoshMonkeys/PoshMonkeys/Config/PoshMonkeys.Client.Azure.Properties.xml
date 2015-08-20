@@ -1,7 +1,10 @@
 <?xml version="1.0"?>
 <Configurations>
+  <!--Azure subscription configuration which used to scope PoshMonkey activity-->
   <PublishSetting>C:\tip\Internal Consumption-6-3-2015-credentials.publishsettings</PublishSetting>
   <SubscriptionName>Internal Consumption</SubscriptionName>
+  
+  <!--Storage account required for logging purpose-->
   <StorageAccountName>poshmonkeys</StorageAccountName>
   <StorageAccountKey></StorageAccountKey>
   <StorageTableName>poshmonkeysevents</StorageTableName>
