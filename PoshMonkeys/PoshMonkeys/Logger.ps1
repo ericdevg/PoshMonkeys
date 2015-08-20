@@ -7,24 +7,15 @@ class Logger
 	[string] $LogFile;
 	[EventsStorage] $Storage;
 
-	Logger([string] $logPath, [string] $logNamePrefix, [EventsStorage] $storage)
+	Logger([string] $logPath)
 	{
-		if($storage -ne $null)
-		{
-			$this.Storage = $storage;
-		}
-
 		if(($logPath -eq $null) -or ((Test-Path "$logPath") -eq $false))
 		{
 			Write-Error "Invalid log path!";
 			$logPath = "$PSScriptRoot\";
 		}
 
-		if($logNamePrefix -eq $null )
-		{
-			Write-Error "Invalid log name!";
-			$logNamePrefix = "PoshMonkeys"	
-		}
+		$logNamePrefix = "PoshMonkeys"	
 
 		$timestamp = Get-Date -Format MM.dd.yyyy;
 		$logName = "$logNamePrefix $timestamp.log";
@@ -38,7 +29,7 @@ class Logger
 		}
 
 		#Create file and start logging
-		New-Item -Path $logPath -Value $logName -ItemType File
+		New-Item -Path $this.LogFile -ItemType File
 
 		Add-Content -Path $this.LogFile -Value "***************************************************************************************************"
 
@@ -75,6 +66,19 @@ class Logger
 		Write-Host "***************************************************************************************************"
 
 		Write-Host ""
+	}
+
+	[void] SetStorage([EventsStorage] $storage)
+	{
+		if($storage -ne $null)
+		{
+			$this.Storage = $storage;
+			$this.Log("Azure storage table is ready for PoshMonkey activity logging.");
+		}
+		else
+		{
+			$this.Log("Warning: No Azure storage table ready for PoshMonkey activity logging.");
+		}
 	}
 
 	[void] Log([string] $message)

@@ -33,52 +33,67 @@ class ChaosMonkey
 		$this.Logger.LogEvent("Chaos Monkey start sworking on his business ...", "ChaosMonkey", $null);
 		$this.Logger.LogEvent("Instance selector starts picking up instance ...", "ChaosMonkey", $null);
 
-		$selector = [InstanceSelector]::new($this.Calendar, $this.Config, $this.Crawler, $this.Logger);
-		
-		foreach($instancGroup in $this.Crawler.AllInstanceGroups)
+		try
 		{
-			$this.Logger.LogEvent("Instance group $($instancGroup.Name) is found", "ChaosMonkey", $null);
-			$instances = $selector.Select($instancGroup.Name);
-
-			$this.Logger.LogEvent("$($instances.Count) instances was randomly selected", "ChaosMonkey", $null);
-			foreach($instance in $instances)
+			$selector = [InstanceSelector]::new($this.Calendar, $this.Config, $this.Crawler, $this.Logger);
+		
+			foreach($instancGroup in $this.Crawler.AllInstanceGroups)
 			{
-				$this.Logger.LogEvent("Simulating the failure event on instance $($instance.Name)", "ChaosMonkey", $null);
+				$this.Logger.LogEvent("Instance group $($instancGroup.Name) is found", "ChaosMonkey", $null);
+				$instances = $selector.Select($instancGroup.Name);
 
-				[int] $rand = 0;
-				if($this.EventsList.Count > 1)
+				$this.Logger.LogEvent("$($instances.Count) instances was randomly selected", "ChaosMonkey", $null);
+				foreach($instance in $instances)
 				{
-					$rand = Get-Random -Minimum 0 -Maximum ($this.EventsList.Count - 1);
+					$this.Logger.LogEvent("Simulating the failure event on instance $($instance.Name)", "ChaosMonkey", $null);
+
+					[int] $rand = 0;
+					if($this.EventsList.Count > 1)
+					{
+						$rand = Get-Random -Minimum 0 -Maximum ($this.EventsList.Count - 1);
+					}
+
+					$this.Logger.LogEvent("Event $($this.EventsList[$rand]) is randomly selected for instance $($instance.Name)", "ChaosMonkey", $this.EventsList[$rand]);
+					$this.Logger.LogEvent("Simulating $($this.EventsList[$rand]) on instance $($instance.Name)", "ChaosMonkey", $this.EventsList[$rand]);
+
+					$vmInstance = Get-AzureVM -Name $instance.Name -ServiceName $instance.ServiceName;
+
+					# you cannot dot sourcing script from class method
+					& $PSScriptRoot\Events\$($this.EventsList[$rand]).ps1 -Instance $vmInstance -Logger $this.Logger -Credential $cred;
+
+					$this.Logger.LogEvent("Finished to simulating $($this.EventsList[$rand]) on instance $($instance.Name)", "ChaosMonkey", $this.EventsList[$rand]);
 				}
-
-				$this.Logger.LogEvent("Event $($this.EventsList[$rand]) is randomly selected for instance $($instance.Name)", "ChaosMonkey", $this.EventsList[$rand]);
-				$this.Logger.LogEvent("Simulating $($this.EventsList[$rand]) on instance $($instance.Name)", "ChaosMonkey", $this.EventsList[$rand]);
-
-				$vmInstance = Get-AzureVM -Name $instance.Name -ServiceName $instance.ServiceName;
-
-				# you cannot dot sourcing script from class method
-				& $PSScriptRoot\Events\$($this.EventsList[$rand]).ps1 -Instance $vmInstance -Logger $this.Logger -Credential $cred;
-
-				$this.Logger.LogEvent("Finished to simulating $($this.EventsList[$rand]) on instance $($instance.Name)", "ChaosMonkey", $this.EventsList[$rand]);
 			}
 		}
-		
+		catch
+		{
+			$this.Logger.LogEvent($_, "ChaosMonkey", "Error");
+			throw;
+		}
 		
 		$this.Logger.LogEvent("Chaos Monkey finished his business ...", "ChaosMonkey", $null);
 	}
 
 	[void] DoTask([PSCredential] $cred, [string] $instanceName, [string] $serviceName, [string] $eventName)
 	{
-		$this.Logger.LogEvent("Chaos Monkey start sworking on his assigned task ...", "ChaosMonkey", $null);
+		try
+		{
+			$this.Logger.LogEvent("Chaos Monkey start sworking on his assigned task ...", "ChaosMonkey", $null);
 
-		$vmInstance = Get-AzureVM -Name $instanceName -ServiceName $serviceName;
+			$vmInstance = Get-AzureVM -Name $instanceName -ServiceName $serviceName;
 
-		# you cannot dot sourcing script from class method
-		& $PSScriptRoot\Events\$eventName.ps1 -Instance $vmInstance -Logger $this.Logger -Credential $cred;
+			# you cannot dot sourcing script from class method
+			& $PSScriptRoot\Events\$eventName.ps1 -Instance $vmInstance -Logger $this.Logger -Credential $cred;
 
-		$this.Logger.LogEvent("Finished to simulating $eventName on instance $instanceName", "ChaosMonkey", $eventName);
+			$this.Logger.LogEvent("Finished to simulating $eventName on instance $instanceName", "ChaosMonkey", $eventName);
 		
-		$this.Logger.LogEvent("Chaos Monkey finished his task ...", "ChaosMonkey", $null);
+			$this.Logger.LogEvent("Chaos Monkey finished his task ...", "ChaosMonkey", $null);
+		}
+		catch
+		{
+			$this.Logger.LogEvent($_, "ChaosMonkey", "Error");
+			throw;
+		}
 	}
 }
 

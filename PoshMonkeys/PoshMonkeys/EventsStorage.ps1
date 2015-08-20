@@ -5,15 +5,28 @@
 class EventsStorage
 {
 	[object] $Table;
+	[object] $Logger;
 
-	EventsStorage([AzureClient] $client)
+	EventsStorage([AzureClient] $client, [object] $logger)
 	{
-		$ctx = New-AzureStorageContext $client.StorageAccountName -StorageAccountKey $client.StorageAccountKey;
-		$this.Table = Get-AzureStorageTable -Name $client.StorageTableName -Context $ctx;
+		$this.Logger = $logger;
 
-		if($this.Table -eq $null)
+		try
 		{
-			$this.Table = New-AzureStorageTable -Name $client.StorageTableName -Context $ctx;
+			$this.Logger.Log("Creating Azure storage table for logging.");
+			$ctx = New-AzureStorageContext $client.StorageAccountName -StorageAccountKey $client.StorageAccountKey;
+			$this.Table = Get-AzureStorageTable -Name $client.StorageTableName -Context $ctx;
+
+			if($this.Table -eq $null)
+			{
+				$this.Table = New-AzureStorageTable -Name $client.StorageTableName -Context $ctx;
+			}
+
+			$this.Logger.Log("Finished creating Azure storage table for logging.");
+		}
+		catch
+		{
+			$this.Logger.Log($_);
 		}
 	}
 
