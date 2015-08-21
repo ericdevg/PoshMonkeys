@@ -34,7 +34,7 @@ class EventSimulator
 			}
 
 			$endpoint = ($this.Instance.VM.ConfigurationSets[0].InputEndpoints | Where-Object {$_.Name -eq "PowerShell"}).Port;
-			Invoke-Command -ComputerName "$($this.Instance.ServiceName).CloudApp.net" -FilePath "$PSScriptRoot\Scripts\$ScriptName.ps1" -Credential $cred -UseSSL -Port $endpoint;
+			Invoke-Command -ComputerName "$($this.Instance.ServiceName).CloudApp.net" -FilePath "$PSScriptRoot\Scripts\Win\$ScriptName.ps1" -Credential $cred -UseSSL -Port $endpoint;
 		}
 	}
 }
