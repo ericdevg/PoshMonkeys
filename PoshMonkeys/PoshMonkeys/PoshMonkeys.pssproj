@@ -29,6 +29,8 @@
   <ItemGroup>
     <Folder Include="Chaos\Events\" />
     <Folder Include="Chaos\Scripts\" />
+    <Folder Include="Chaos\Scripts\Unix\" />
+    <Folder Include="Chaos\Scripts\Win\" />
     <Folder Include="Config\" />
     <Folder Include="Chaos\" />
     <Folder Include="Reference\" />
@@ -39,7 +41,10 @@
     <Compile Include="Chaos\ChaosMonkeyConfig.ps1" />
     <Compile Include="Chaos\EventSimulator.ps1" />
     <Compile Include="Chaos\Events\BurnCpuEvent.ps1" />
-    <Compile Include="Chaos\Scripts\burncpu.ps1" />
+    <Compile Include="Chaos\Events\FailDnsEvent.ps1" />
+    <Compile Include="Chaos\Events\RebootEvent.ps1" />
+    <Compile Include="Chaos\Scripts\Win\burncpu.ps1" />
+    <Compile Include="Chaos\Scripts\Win\faildns.ps1" />
     <Compile Include="ClientConfig.ps1" />
     <Compile Include="AzureClient.ps1" />
     <Compile Include="Chaos\ChaosMonkey.ps1" />
@@ -49,6 +54,7 @@
     <Compile Include="Config\PoshMonkeys.Properties.xml" />
     <Compile Include="EmailNotifier.ps1" />
     <Compile Include="EventsStorage.ps1" />
+    <Compile Include="Get-PoshMonkeyEventLog.ps1" />
     <Compile Include="InstallWinRMCertAzureVM.ps1" />
     <Compile Include="Instance.ps1" />
     <Compile Include="InstanceCrawler.ps1" />
@@ -60,18 +66,18 @@
     <Compile Include="MonkeyScheduler.ps1" />
     <Compile Include="Resources\plink.exe" />
     <Compile Include="RunPoshMonkeys.ps1" />
-    <Compile Include="Chaos\Scripts\burncpu.sh" />
-    <Compile Include="Chaos\Scripts\burnio.sh" />
-    <Compile Include="Chaos\Scripts\faildns.sh" />
-    <Compile Include="Chaos\Scripts\faildynamodb.sh" />
-    <Compile Include="Chaos\Scripts\failec2.sh" />
-    <Compile Include="Chaos\Scripts\fails3.sh" />
-    <Compile Include="Chaos\Scripts\filldisk.sh" />
-    <Compile Include="Chaos\Scripts\killprocesses.sh" />
-    <Compile Include="Chaos\Scripts\networkcorruption.sh" />
-    <Compile Include="Chaos\Scripts\networklatency.sh" />
-    <Compile Include="Chaos\Scripts\networkloss.sh" />
-    <Compile Include="Chaos\Scripts\nullroute.sh" />
+    <Compile Include="Chaos\Scripts\Unix\burncpu.sh" />
+    <Compile Include="Chaos\Scripts\Unix\burnio.sh" />
+    <Compile Include="Chaos\Scripts\Unix\faildns.sh" />
+    <Compile Include="Chaos\Scripts\Unix\faildynamodb.sh" />
+    <Compile Include="Chaos\Scripts\Unix\failec2.sh" />
+    <Compile Include="Chaos\Scripts\Unix\fails3.sh" />
+    <Compile Include="Chaos\Scripts\Unix\filldisk.sh" />
+    <Compile Include="Chaos\Scripts\Unix\killprocesses.sh" />
+    <Compile Include="Chaos\Scripts\Unix\networkcorruption.sh" />
+    <Compile Include="Chaos\Scripts\Unix\networklatency.sh" />
+    <Compile Include="Chaos\Scripts\Unix\networkloss.sh" />
+    <Compile Include="Chaos\Scripts\Unix\nullroute.sh" />
     <Compile Include="Start-PoshMonkeys.ps1" />
     <Compile Include="Stop-PoshMonkeys.ps1" />
   </ItemGroup>
