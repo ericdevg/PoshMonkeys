@@ -47,8 +47,12 @@ class EventsStorage
 
 		# set query details.
 		$query.FilterString = $filter;
-		$query.SelectColumns = $list
-		$query.TakeCount = $count;
+		$query.SelectColumns = $list;
+
+		if($count -gt 0)
+		{
+			$query.TakeCount = $count;
+		}
 
 		# execute the query.
 		$entities = $this.Table.CloudTable.ExecuteQuery($query)
