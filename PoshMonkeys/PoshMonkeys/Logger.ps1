@@ -11,7 +11,7 @@ class Logger
 	{
 		if(($logPath -eq $null) -or ((Test-Path "$logPath") -eq $false))
 		{
-			Write-Error "Invalid log path!";
+			Write-Warning "Invalid log path!";
 			$logPath = "$PSScriptRoot\";
 		}
 

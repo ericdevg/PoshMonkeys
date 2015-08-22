@@ -5,7 +5,7 @@
 Param(
 	[switch][Parameter(ParameterSetName="p0")] $IntervalInMinutes,
 	[switch][Parameter(ParameterSetName="p1",Mandatory=$true)] $Manual,
-	[string][Parameter(ParameterSetName="p1",Mandatory=$true)][ValidateSet('Chaos')] $MonkeyType,
+	[string][Parameter(ParameterSetName="p1",Mandatory=$true)][ValidateSet('chaos')] $MonkeyType,
 	[string][Parameter(ParameterSetName="p1",Mandatory=$true)] $InstanceName,
 	[string][Parameter(ParameterSetName="p1",Mandatory=$true)] $ServiceName,
 	[string][Parameter(ParameterSetName="p1",Mandatory=$true)] $Event
@@ -41,7 +41,7 @@ else
 {
 	Write-Host "PoshMonkeys is being assigned to run specific task: $Event."
 	
-	& $PSScriptRoot\RunPoshMonkeys.ps1 $PSScriptRoot $cred -Manual -MonkeyType $MonkeyType -InstanceName $InstanceName -ServiceName $ServiceName -Event $Event;
+	& $PSScriptRoot\RunPoshMonkeys.ps1 -ModulePath $PSScriptRoot -Cred $cred -Manual -MonkeyType $MonkeyType -InstanceName $InstanceName -ServiceName $ServiceName -Event $Event;
 	
 	Write-Host "PoshMonkeys were just finished run the task: $Event."
 }
