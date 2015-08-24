@@ -1,5 +1,6 @@
 # PoshMonkeys
-<b>PowerShell-based ChaosMonkey for Azure.</b>
+<b>PowerShell-based ChaosMonkey for Azure.</b><a href="https://github.com/EricMSFT/PoshMonkeys/wiki">(wiki)</a>
+
 
 Chaos Monkey is a service which identifies groups of systems and randomly terminates one of the systems in a group. The service operates at a controlled time (does not run on weekends and holidays) and interval (only operates during business hours). In most cases we have designed our applications to continue working when a peer goes offline, but in those special cases we want to make sure there are people around to resolve and learn from any problems.
 
