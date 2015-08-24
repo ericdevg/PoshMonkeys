@@ -16,6 +16,10 @@ Future consideration:
 2. Better extensibility of chaos events.
 3. GUI for Monkey activity logging.
 4. Introduce instance cool down time interval. In general, you don’t want to trigger exact the same failure on same instance twice in a row. Cool down time targets to prevent that happen.
-
+5. Introduce holidays in Monkey Calendar 
+6. Customize logging pipe through configuration (imagine the case of serving automation to run)
+7. Email notification
+8. Support unleashed mode
+9. Diagnostic mode
 
 
