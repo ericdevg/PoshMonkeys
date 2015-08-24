@@ -5,7 +5,7 @@ Chaos Monkey is a service which identifies groups of systems and randomly termin
 
 Failures happen and they inevitably happen when least desired or expected. If your application can't tolerate an instance failure would you rather find out by being paged at 3am or when you're in the office and have had your morning coffee? Even if you are confident that your architecture can tolerate an instance failure, are you sure it will still be able to next week? How about next month? Software is complex and dynamic and that "simple fix" you put in place last week could have undesired consequences. Do your traffic load balancers correctly detect and route requests around instances that go offline? Can you reliably rebuild your instances? Perhaps an engineer "quick patched" an instance last week and forgot to commit the changes to your source repository? There are many failure scenarios that Chaos Monkey helps to detect. 
 
-There are a few assumption made around this tool:
+There are a few assumptions made around this tool:
 
 1. Adoption of AvailabilitySet as scaling basic unit.
 
@@ -27,14 +27,14 @@ Future consideration:
 
 4. Introduce instance cool down time interval. In general, you don’t want to trigger exact the same failure on same instance twice in a row. Cool down time targets to prevent that happen.
 
-5. Introduce holidays in Monkey Calendar 
+5. Introduce holidays in Monkey Calendar.
 
-6. Customize logging pipe through configuration (imagine the case of serving automation to run)
+6. Customize logging pipe through configuration (imagine the case of serving automation to run).
 
-7. Email notification
+7. Email notification.
 
-8. Support unleashed mode
+8. Support unleashed mode.
 
-9. Diagnostic mode
+9. Diagnostic mode.
 
-
+Stay tuned.
