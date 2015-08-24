@@ -72,7 +72,7 @@ class AzureClient {
 
 	[array] GetAllInstances([string] $availabilitySetName) 
 	{
-		return Get-AzureVM | Where-Object {$_.AvailabilitySetName -eq "$availabilitySetName" -and $_.Status -eq "ReadyRole"};
+		return Get-AzureVM | Where-Object {$_.AvailabilitySetName -eq "$availabilitySetName"};
     }
 
 	[bool] IsPSEnabledInstance([string] $name, [string] $serviceName) 

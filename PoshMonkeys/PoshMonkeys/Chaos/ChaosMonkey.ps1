@@ -48,9 +48,10 @@ class ChaosMonkey
 					$this.Logger.LogEvent("Simulating the failure event on instance $($instance.Name)", "ChaosMonkey", $null);
 
 					[int] $rand = 0;
-					if($this.EventsList.Count > 1)
+					if($this.EventsList.Count -gt 1)
 					{
 						$rand = Get-Random -Minimum 0 -Maximum ($this.EventsList.Count - 1);
+						$this.Logger.LogEvent("Getting rand event index: {$rand}", "ChaosMonkey", $null);
 					}
 
 					$this.Logger.LogEvent("Event $($this.EventsList[$rand]) is randomly selected for instance $($instance.Name)", "ChaosMonkey", $this.EventsList[$rand]);

@@ -18,14 +18,14 @@
     <AvailabilitySet>
       <Name>AS007</Name>
       <Enabled>1</Enabled>
-      <DailyProbability>8</DailyProbability>
+      <DailyProbability>9</DailyProbability>
       <MaxAffectedInstance>2</MaxAffectedInstance>
     </AvailabilitySet>
     <AvailabilitySet>
       <Name>AS008</Name>
       <Enabled>1</Enabled>
-      <DailyProbability>8</DailyProbability>
-      <MaxAffectedInstance>2</MaxAffectedInstance>
+      <DailyProbability>9</DailyProbability>
+      <MaxAffectedInstance>1</MaxAffectedInstance>
     </AvailabilitySet>
   </AvailabilitySets>
 

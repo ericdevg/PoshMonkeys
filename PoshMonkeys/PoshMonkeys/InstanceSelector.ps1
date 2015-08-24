@@ -76,7 +76,11 @@ class InstanceSelector
 				if($rand1 / 100 -lt $hourlyProbability)
 				{
 					$this.Logger.LogEvent("Hourly probability hit. Randomly picking up instances ...", "InstanceSelector", $null);
-					[int] $rand2 = Get-Random -Minimum 1 -Maximum $groupConfig.MaxAffectedInstance;
+					[int] $rand2 = 1;
+					if($groupConfig.MaxAffectedInstance -gt 1)
+					{
+						$rand2 = Get-Random -Minimum 1 -Maximum $groupConfig.MaxAffectedInstance;
+					}
 					$selectedInstances = $group.Instances | Get-Random -Count $rand2;
 					$this.Logger.LogEvent("Hourly probability hit. Finished randomly picking up instances ...", "InstanceSelector", $null);
 				}

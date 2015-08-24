@@ -25,8 +25,6 @@ class MonkeyScheduler
 		{
 			if ($this.Calendar.IsMonkeyBusinessTime())
 			{
-				#& $PSScriptRoot\MonkeyRunner.ps1 $monkey $this.Logger $cred;
-			
 				$script = {
 					param($p1, $p2, $p3, $p4)
 					. "$p1\MonkeyRunner.ps1" -Monkey $p2 -Logger $p3 -Cred $p4;
@@ -34,14 +32,16 @@ class MonkeyScheduler
 
 				foreach($monkey in $monkeys)
 				{
-					$p = [PowerShell]::Create();
+					& $PSScriptRoot\MonkeyRunner.ps1 $monkey $this.Logger $cred;
 
-					$p.AddScript($script).AddArgument($PSScriptRoot).AddArgument($monkey).AddArgument($this.Logger).AddArgument($cred);
+					#$p = [PowerShell]::Create();
 
-					# asynchonizely call monkey runner
-					$job = $p.BeginInvoke();
+					#$p.AddScript($script).AddArgument($PSScriptRoot).AddArgument($monkey).AddArgument($this.Logger).AddArgument($cred);
+
+					## asynchonizely call monkey runner
+					#$job = $p.BeginInvoke();
 			
-					$this.Logger.LogEvent("Finished sending monkey to work ...", "MonkeyScheduler", $null);
+					#$this.Logger.LogEvent("Finished sending monkey to work ...", "MonkeyScheduler", $null);
 				}
 			}
 			else

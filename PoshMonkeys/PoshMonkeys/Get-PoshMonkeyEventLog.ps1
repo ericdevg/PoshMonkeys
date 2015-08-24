@@ -104,14 +104,14 @@ try
 		$props = @{
 			EventType = $log.Properties["EventType"].StringValue
 			Message = $log.Properties["Message"].StringValue
-			Timestamp = $log.Timestamp
+			Timestamp = $log.Timestamp.ToLocalTime()
 		};
 
 		$obj = new-object psobject -property $props;
 		$ret.Add($obj) | Out-Null;
 	}
 
-	$ret | Format-Table -AutoSize -Wrap -Property EventType, Timestamp, Message;
+	$ret | Sort-Object -Property Timestamp | Format-Table -AutoSize -Wrap -Property EventType, Timestamp, Message;
 }
 finally
 {

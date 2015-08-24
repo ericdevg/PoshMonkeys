@@ -3,7 +3,7 @@
 #
 
 Param(
-	[switch][Parameter(ParameterSetName="p0")] $IntervalInMinutes,
+	[int][Parameter(ParameterSetName="p0")] $IntervalInMinutes = 60,
 	[switch][Parameter(ParameterSetName="p1",Mandatory=$true)] $Manual,
 	[string][Parameter(ParameterSetName="p1",Mandatory=$true)][ValidateSet('chaos')] $MonkeyType,
 	[string][Parameter(ParameterSetName="p1",Mandatory=$true)] $InstanceName,
@@ -22,14 +22,7 @@ if($Manual -eq $false)
 {
 	Write-Host "PoshMonkeys is being deployed and run according to its configuration."
 
-	if($IntervalInMinutes -ne $null)
-	{
-		$trigger = New-JobTrigger -RepeatIndefinitely  -RepetitionInterval (New-TimeSpan -Minutes $IntervalInMinutes) -At "01/01/2015 00:00:00" -Once;
-	}
-	else
-	{
-		$trigger = New-JobTrigger -RepeatIndefinitely  -RepetitionInterval (New-TimeSpan -Hours 1) -At "01/01/2015 00:00:00" -Once;
-	}
+	$trigger = New-JobTrigger -RepeatIndefinitely  -RepetitionInterval (New-TimeSpan -Minutes $IntervalInMinutes) -At "01/01/2015 00:00:00" -Once;
 
 	Register-ScheduledJob -Name "PoshMonkeysActiveRun" -Trigger $trigger -FilePath "$PSScriptRoot\RunPoshMonkeys.ps1" -ArgumentList $PSScriptRoot, $cred;
 

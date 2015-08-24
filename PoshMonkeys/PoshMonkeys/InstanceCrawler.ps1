@@ -30,7 +30,10 @@ class InstanceCrawler
 				foreach($Instance in $Instances)
 				{
 					$this.Logger.LogEvent("Found instance $($instance.Name).", "InstanceCrawler", $null);
-					$InstanceGroup.AddInstance([Instance]::new($Instance.Name, $Instance.ServiceName));
+					if($instance.Status -eq 'ReadyRole')
+					{
+						$InstanceGroup.AddInstance([Instance]::new($Instance.Name, $Instance.ServiceName));
+					}
 				}
 
 				$this.AllInstanceGroups += $InstanceGroup;
